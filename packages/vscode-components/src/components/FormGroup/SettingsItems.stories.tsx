@@ -4,7 +4,6 @@ import { Checkbox } from '../Checkbox';
 import { Collapsible } from '../Collapsible';
 import { Divider } from '../Divider';
 import { FormContainer } from '../FormContainer';
-import { FormGroup } from '../FormGroup';
 import { FormHelper } from '../FormHelper';
 import { Label } from '../Label';
 import { ListEditor } from '../ListEditor';
@@ -13,9 +12,10 @@ import { RadioGroup } from '../RadioGroup';
 import { Select } from '../Select';
 import { Textarea } from '../Textarea';
 import { TextInput } from '../TextInput';
+import { FormGroup } from './FormGroup';
 
 const meta = {
-  title: 'Layout/Settings Forms',
+  title: 'Form/Settings Items',
   component: FormGroup,
   parameters: {
     layout: 'fullscreen',
@@ -40,16 +40,27 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
+
 export const WithCategory: Story = {
-  args: { category: 'Editor > Font', fill: true },
+  args: {
+    category: 'Editor > Font',
+    fill: true,
+  },
 };
-export const Modified: Story = { args: { modified: true } };
+
+export const Modified: Story = {
+  args: {
+    modified: true,
+  },
+};
+
 export const WithCheckbox: Story = {
   args: {
     label: 'Files: Auto Save',
     children: <Checkbox label="Enabled" defaultChecked />,
   },
 };
+
 export const WithSelect: Story = {
   args: {
     label: 'Workbench: Color Theme',
@@ -57,6 +68,7 @@ export const WithSelect: Story = {
     fill: true,
   },
 };
+
 export const WithRadioGroup: Story = {
   args: {
     label: 'Workbench: Preferred Settings Target',
@@ -65,6 +77,7 @@ export const WithRadioGroup: Story = {
   },
   render: (args) => {
     const [value, setValue] = useState('workspace');
+
     return (
       <FormGroup {...args}>
         <RadioGroup orientation="vertical" value={value} onChange={setValue}>
@@ -76,6 +89,7 @@ export const WithRadioGroup: Story = {
     );
   },
 };
+
 export const WithTextarea: Story = {
   args: {
     label: 'Chat: System Prompt',
@@ -90,12 +104,14 @@ export const WithTextarea: Story = {
     fill: true,
   },
 };
+
 export const WithListEditor: Story = {
   args: {
     label: 'Files: Associations',
   },
   render: (args) => {
     const [value, setValue] = useState(['*.md', '*.txt']);
+
     return (
       <FormGroup {...args} fill>
         <ListEditor value={value} onChange={setValue} />

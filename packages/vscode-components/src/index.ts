@@ -14,7 +14,6 @@ export * from './components/Radio';
 export * from './components/RadioGroup';
 export * from './components/Select';
 export * from './components/Collapsible';
-export * from './components/SettingItem';
 export * from './components/FormHelper';
 export * from './components/FormGroup';
 export * from './components/FormContainer';
