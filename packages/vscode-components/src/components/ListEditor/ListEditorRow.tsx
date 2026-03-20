@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Checkbox } from '../Checkbox';
-import { Select } from '../Select';
-import { TextInput } from '../TextInput';
-import { isComposingKeyboardEvent } from '../../hooks/useImeGuard';
 import type { ItemSchema } from '../../types/json-schema';
+import {
+  handleEditorKeyDown,
+  SchemaValueInput,
+} from '../shared/collectionEditor';
 import styles from './ListEditor.module.css';
 
 interface ListEditorRowProps<T> {
@@ -18,63 +18,114 @@ interface ListEditorRowProps<T> {
   dropTarget?: boolean;
 }
 
-function parseValue(rawValue: string, schema?: ItemSchema): unknown {
-  if (!schema || schema.type === 'string') {
-    return rawValue;
-  }
-  if (schema.type === 'boolean') {
-    return rawValue === 'true';
-  }
-  return rawValue === '' ? '' : Number(rawValue);
+interface ListEditorEditingContentProps<T> {
+  draft: unknown;
+  itemSchema?: ItemSchema;
+  onDraftChange: (value: unknown) => void;
+  onCommit: (value: T) => void;
+  onCancel: () => void;
 }
 
-function renderEditor(
-  schema: ItemSchema | undefined,
-  value: unknown,
-  onChange: (value: unknown) => void,
-) {
-  if (schema?.type === 'boolean') {
-    return (
-      <Checkbox
-        checked={Boolean(value)}
-        onChange={onChange as (value: boolean) => void}
-      />
-    );
-  }
-
-  if (schema?.type === 'string' && schema.enum?.length) {
-    return (
-      <Select
-        className={[styles.inputControl, styles.boundedInputControl].join(' ')}
-        value={String(value ?? '')}
-        enum={schema.enum}
-        enumDescriptions={schema.enumDescriptions}
-        enumItemLabels={schema.enumItemLabels}
-        onChange={onChange as (value: string) => void}
-      />
-    );
-  }
-
+function ListEditorEditingContent<T>({
+  draft,
+  itemSchema,
+  onDraftChange,
+  onCommit,
+  onCancel,
+}: ListEditorEditingContentProps<T>) {
   return (
-    <TextInput
-      className={[
-        styles.inputControl,
-        schema?.type === 'string'
-          ? styles.fillInputControl
-          : styles.boundedInputControl,
-      ].join(' ')}
-      value={value as string | number | undefined}
-      type={
-        schema?.type === 'number' || schema?.type === 'integer'
-          ? schema.type
-          : 'string'
-      }
-      pattern={schema?.type === 'string' ? schema.pattern : undefined}
-      maxLength={schema?.type === 'string' ? schema.maxLength : undefined}
-      minLength={schema?.type === 'string' ? schema.minLength : undefined}
-      onChange={(next) => onChange(parseValue(next, schema))}
-    />
+    <>
+      <div
+        className={styles.editorCell}
+        onKeyDown={(event) => {
+          handleEditorKeyDown(event, () => onCommit(draft as T), onCancel);
+        }}
+      >
+        <SchemaValueInput
+          schema={itemSchema}
+          value={draft}
+          onChange={onDraftChange}
+          selectClassName={[
+            styles.inputControl,
+            styles.boundedInputControl,
+          ].join(' ')}
+          textInputClassName={[
+            styles.inputControl,
+            itemSchema?.type === 'string'
+              ? styles.fillInputControl
+              : styles.boundedInputControl,
+          ].join(' ')}
+          includeStringValidation
+        />
+      </div>
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={() => onCommit(draft as T)}
+          aria-label="Save item"
+        >
+          ✓
+        </button>
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={onCancel}
+          aria-label="Cancel edit"
+        >
+          ×
+        </button>
+      </div>
+    </>
   );
+}
+
+interface ListEditorReadonlyContentProps {
+  value: unknown;
+  onStartEdit: () => void;
+  onRemove: () => void;
+}
+
+function ListEditorReadonlyContent({
+  value,
+  onStartEdit,
+  onRemove,
+}: ListEditorReadonlyContentProps) {
+  return (
+    <>
+      <div className={styles.value} onDoubleClick={onStartEdit}>
+        {String(value)}
+      </div>
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={onStartEdit}
+          aria-label="Edit item"
+        >
+          ✎
+        </button>
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={onRemove}
+          aria-label="Remove item"
+        >
+          ×
+        </button>
+      </div>
+    </>
+  );
+}
+
+function getRowClassName(editing: boolean, dropTarget: boolean) {
+  return [
+    styles.row,
+    editing ? styles.editing : '',
+    dropTarget ? styles.dropTarget : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 }
 
 export function ListEditorRow<T>({
@@ -94,79 +145,24 @@ export function ListEditorRow<T>({
     setDraft(value);
   }, [value]);
 
-  const className = [
-    styles.row,
-    editing ? styles.editing : '',
-    dropTarget ? styles.dropTarget : '',
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const className = getRowClassName(editing, dropTarget);
 
   return (
     <div className={className} {...dragProps}>
       {editing ? (
-        <>
-          <div
-            className={styles.editorCell}
-            onKeyDown={(event) => {
-              if (isComposingKeyboardEvent(event)) {
-                return;
-              }
-              if (event.key === 'Enter') {
-                onCommit(draft as T);
-              }
-              if (event.key === 'Escape') {
-                event.preventDefault();
-                event.stopPropagation();
-                onCancel();
-              }
-            }}
-          >
-            {renderEditor(itemSchema, draft, setDraft)}
-          </div>
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={() => onCommit(draft as T)}
-              aria-label="Save item"
-            >
-              ✓
-            </button>
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={onCancel}
-              aria-label="Cancel edit"
-            >
-              ×
-            </button>
-          </div>
-        </>
+        <ListEditorEditingContent
+          draft={draft}
+          itemSchema={itemSchema}
+          onDraftChange={setDraft}
+          onCommit={onCommit}
+          onCancel={onCancel}
+        />
       ) : (
-        <>
-          <div className={styles.value} onDoubleClick={onStartEdit}>
-            {String(value)}
-          </div>
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={onStartEdit}
-              aria-label="Edit item"
-            >
-              ✎
-            </button>
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={onRemove}
-              aria-label="Remove item"
-            >
-              ×
-            </button>
-          </div>
-        </>
+        <ListEditorReadonlyContent
+          value={value}
+          onStartEdit={onStartEdit}
+          onRemove={onRemove}
+        />
       )}
     </div>
   );
