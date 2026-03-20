@@ -5,6 +5,7 @@ import { Collapsible } from '../Collapsible';
 import { FormContainer } from '../FormContainer';
 import { FormGroup } from '../FormGroup';
 import { FormHelper } from '../FormHelper';
+import { Divider } from '../Divider';
 import { ListEditor } from '../ListEditor';
 import { Select } from '../Select';
 import { Textarea } from '../Textarea';
@@ -159,4 +160,29 @@ export const WithFormLayout: Story = {
       />
     );
   },
+};
+
+export const WithDividerBetweenGroups: Story = {
+  args: {
+    title: 'Search: Quick Open History Filter',
+  },
+  render: (args) => (
+    <SettingItem
+      {...args}
+      description="Separates primary and secondary actions inside the same setting row."
+      children={
+        <div style={{ width: '100%', maxWidth: 320 }}>
+          <TextInput
+            defaultValue="default"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+          <Divider />
+          <TextInput
+            defaultValue="files.exclude"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+        </div>
+      }
+    />
+  ),
 };

@@ -7,6 +7,7 @@ import {
   FormContainer,
   FormGroup,
   FormHelper,
+  Divider,
   Icon,
   ListEditor,
   ObjectEditor,
@@ -80,6 +81,24 @@ function ControlsPreview() {
           onChange={setSystemPrompt}
           placeholder="Enter a system prompt"
         />
+      </SettingItem>
+      <Divider />
+      <SettingItem
+        title="Chat: Command Prefix"
+        description="Separates the main prompt from the optional command prefix used by slash-style actions."
+        className="setting-item setting-item-text"
+      >
+        <div style={{ width: '100%', maxWidth: 420 }}>
+          <TextInput
+            defaultValue="/review"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+          <Divider />
+          <TextInput
+            defaultValue="/fix"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+        </div>
       </SettingItem>
     </>
   );
