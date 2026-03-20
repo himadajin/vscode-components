@@ -4,6 +4,7 @@ export interface LabelProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
   category?: React.ReactNode;
   description?: React.ReactNode;
+  descriptionId?: string;
   htmlFor?: string;
 }
 
@@ -11,6 +12,7 @@ export function Label({
   children,
   category,
   description,
+  descriptionId,
   htmlFor,
   className,
   ...props
@@ -39,7 +41,10 @@ export function Label({
         )}
       </div>
       {description ? (
-        <div className={`${styles.description} setting-item-description`}>
+        <div
+          id={descriptionId}
+          className={`${styles.description} setting-item-description`}
+        >
           {description}
         </div>
       ) : null}

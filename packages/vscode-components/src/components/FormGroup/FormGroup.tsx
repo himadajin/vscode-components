@@ -1,6 +1,7 @@
 import { cloneElement, isValidElement, useId } from 'react';
 import type { FormHelperProps } from '../FormHelper';
 import { FormHelper } from '../FormHelper';
+import { Label } from '../Label';
 import styles from './FormGroup.module.css';
 
 type ControlElementProps = {
@@ -67,16 +68,13 @@ export function FormGroup({
 
   return (
     <section className={classes} {...props}>
-      <div className={styles.header}>
-        <label className={styles.label} htmlFor={resolvedControlId}>
-          {label}
-        </label>
-      </div>
-      {description ? (
-        <div id={descriptionId} className={styles.description}>
-          {description}
-        </div>
-      ) : null}
+      <Label
+        htmlFor={resolvedControlId}
+        description={description}
+        descriptionId={descriptionId}
+      >
+        {label}
+      </Label>
       <div className={styles.control}>{control}</div>
       {helper ? (
         <div className={styles.helper}>

@@ -21,29 +21,6 @@
   bottom: 18px;
 }
 
-.header {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  padding-bottom: 2px;
-  user-select: text;
-  -webkit-user-select: text;
-}
-
-.label {
-  font-weight: 600;
-  user-select: text;
-  -webkit-user-select: text;
-}
-
-.description {
-  margin-top: -1px;
-  color: var(--vscode-foreground);
-  opacity: 0.9;
-  user-select: text;
-  -webkit-user-select: text;
-}
-
 .control {
   margin-top: 9px;
   display: flex;
