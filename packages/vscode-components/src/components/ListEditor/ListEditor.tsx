@@ -65,7 +65,7 @@ export function ListEditor<T = string>({
   };
 
   return (
-    <>
+    <div className={styles.root}>
       {value.length > 0 ? (
         <div className={styles.editor}>
           {value.map((item, index) => (
@@ -109,6 +109,6 @@ export function ListEditor<T = string>({
           Add Item
         </button>
       </div>
-    </>
+    </div>
   );
 }

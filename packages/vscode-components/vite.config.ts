@@ -2,7 +2,6 @@ import { copyFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import dts from 'vite-plugin-dts';
 
 function copyThemeAsset() {
   return {
@@ -19,15 +18,9 @@ function copyThemeAsset() {
 }
 
 export default defineConfig({
-  plugins: [
-    react(),
-    dts({
-      include: ['src'],
-      rollupTypes: true,
-    }),
-    copyThemeAsset(),
-  ],
+  plugins: [react(), copyThemeAsset()],
   build: {
+    emptyOutDir: false,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       formats: ['es'],

@@ -1,0 +1,122 @@
+:root {
+  color-scheme: light dark;
+  font-family: var(--vscode-font-family), 'Segoe UI', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--vscode-foreground);
+  background: var(--vscode-editor-background);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--vscode-editor-background);
+  color: var(--vscode-foreground);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+code {
+  font-family: var(--vscode-editor-font-family), 'SFMono-Regular', monospace;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.preview-shell {
+  height: 100%;
+  overflow: hidden;
+  max-width: 1400px;
+  margin: auto;
+}
+
+.preview-body {
+  position: relative;
+}
+
+.preview-tree {
+  margin-top: 14px;
+  height: 100%;
+}
+
+.preview-list {
+  display: block;
+}
+
+.preview-card-header {
+  max-width: min(100%, 1400px);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.preview-card-header .settings-group-title-label {
+  display: inline-block;
+  margin: 0;
+  font-weight: 600;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--vscode-settings-headerForeground);
+  font-size: 22px;
+}
+
+.preview-settings-row {
+  max-width: min(100%, 1400px);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-left: 24px;
+  padding-right: 24px;
+  overflow: visible;
+}
+
+.preview-card .setting-item {
+  border-top: 1px solid transparent;
+}
+
+.preview-card .setting-item:hover {
+  background-color: var(--vscode-settings-rowHoverBackground);
+}
+
+.preview-card .setting-item.setting-item-bool,
+.preview-card .setting-item.setting-item-list {
+  padding-bottom: 26px;
+}
+
+.preview-card .setting-item .setting-item-value {
+  margin-top: 9px;
+  display: flex;
+}
+
+.preview-card .setting-item.setting-item-number .setting-item-value > * {
+  min-width: 200px;
+}
+
+.preview-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.preview-toolbar-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}

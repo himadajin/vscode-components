@@ -29,12 +29,14 @@ export function SettingItem({
 
   return (
     <section id={id} className={classes}>
-      {category ? <div className={styles.category}>{category}</div> : null}
-      <div className={styles.title}>{title}</div>
+      <div className={styles.heading}>
+        {category ? <span className={styles.category}>{category}</span> : null}
+        <span className={styles.title}>{title}</span>
+      </div>
       {description ? (
         <div className={styles.description}>{description}</div>
       ) : null}
-      <div className={styles.control}>{children}</div>
+      <div className={`${styles.control} setting-item-value`}>{children}</div>
     </section>
   );
 }

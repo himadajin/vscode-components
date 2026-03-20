@@ -30,7 +30,7 @@ const preview: Preview = {
   },
   decorators: [
     (Story, context) => {
-      const theme = context.globals.theme ?? 'dark';
+      const theme = context.globals.theme === 'light' ? 'light' : 'dark';
       document.documentElement.dataset.theme = theme;
 
       if (context.parameters.vscodePreview === 'settings') {

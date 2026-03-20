@@ -1,7 +1,0 @@
-src/
-.storybook/
-user/
-node_modules/
-*.log
-tsconfig.json
-vite.config.ts

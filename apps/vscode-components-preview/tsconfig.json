@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["node", "vscode"],
+    "baseUrl": ".",
+    "paths": {
+      "vscode-components": ["../../packages/vscode-components/src/index.ts"]
+    }
+  },
+  "include": [
+    "src",
+    "vite.webview.config.ts",
+    "webview-ui/src",
+    "../../packages/vscode-components/src/types/css-modules.d.ts",
+    "../../packages/vscode-components/src/types/web-components.d.ts"
+  ]
+}

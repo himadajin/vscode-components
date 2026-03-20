@@ -1,3 +1,10 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+}
+
 .editor {
   width: 100%;
   border: 1px solid var(--vscode-panel-border);
@@ -102,6 +109,7 @@
 }
 
 .footer {
+  display: block;
   padding-top: 4px;
   padding-right: 4px;
 }
