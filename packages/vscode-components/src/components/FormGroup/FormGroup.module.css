@@ -28,11 +28,15 @@
   min-width: 0;
 }
 
+.control > * {
+  min-width: 0;
+}
+
 .helper {
   margin-top: 6px;
 }
 
-.fill > * {
+.fill .control > * {
   width: 100%;
   max-width: none;
 }

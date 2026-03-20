@@ -10,8 +10,12 @@ import { ListEditor } from '../ListEditor';
 import { Radio } from '../Radio';
 import { RadioGroup } from '../RadioGroup';
 import { Select } from '../Select';
+import { SplitLayout } from '../SplitLayout';
+import { TabHeader } from '../TabHeader';
+import { TabPanel } from '../TabPanel';
 import { Textarea } from '../Textarea';
 import { TextInput } from '../TextInput';
+import { Tabs } from '../Tabs';
 import { FormGroup } from './FormGroup';
 
 const meta = {
@@ -243,6 +247,69 @@ export const WithFormLayout: Story = {
       </FormGroup>
     );
   },
+};
+
+export const WithTabs: Story = {
+  args: {
+    label: 'Workbench: Settings Sections',
+    description:
+      'Switch between related settings panels inside a single settings row.',
+  },
+  render: (args) => {
+    const [selectedIndex, setSelectedIndex] = useState(0);
+
+    return (
+      <FormGroup {...args} fill>
+        <Tabs selectedIndex={selectedIndex} onSelect={setSelectedIndex}>
+          <TabHeader>General</TabHeader>
+          <TabHeader>Search</TabHeader>
+          <TabHeader>Advanced</TabHeader>
+          <TabPanel>
+            <div style={{ padding: '12px 0 0' }}>
+              <TextInput defaultValue="files.exclude" />
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <div style={{ padding: '12px 0 0' }}>
+              <TextInput defaultValue="search.exclude" />
+            </div>
+          </TabPanel>
+          <TabPanel>
+            <div style={{ padding: '12px 0 0' }}>
+              <Textarea
+                rows={3}
+                defaultValue="editor.experimental.asyncTokenization"
+              />
+            </div>
+          </TabPanel>
+        </Tabs>
+      </FormGroup>
+    );
+  },
+};
+
+export const WithSplitLayout: Story = {
+  args: {
+    label: 'Workbench: Pane Layout',
+    description:
+      'Demonstrates a split view embedded in a setting row for layout-oriented preferences.',
+  },
+  render: (args) => (
+    <FormGroup {...args} fill>
+      <div style={{ height: 120 }}>
+        <SplitLayout
+          split="vertical"
+          initialHandlePosition="42%"
+          start={
+            <div style={{ height: '100%', padding: '10px 12px' }}>Sidebar</div>
+          }
+          end={
+            <div style={{ height: '100%', padding: '10px 12px' }}>Editor</div>
+          }
+        />
+      </div>
+    </FormGroup>
+  ),
 };
 
 export const WithDividerBetweenGroups: Story = {

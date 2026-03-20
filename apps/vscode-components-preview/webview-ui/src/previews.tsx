@@ -15,8 +15,12 @@ import {
   Radio,
   RadioGroup,
   Select,
+  SplitLayout,
+  TabHeader,
+  TabPanel,
   Textarea,
   TextInput,
+  Tabs,
 } from 'vscode-components';
 
 type PreviewDefinition = {
@@ -373,6 +377,75 @@ function CollapsiblePreview() {
   );
 }
 
+function NavigationLayoutPreview() {
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [splitPosition, setSplitPosition] = useState('42%');
+
+  return (
+    <>
+      <FormContainer>
+        <FormGroup
+          label="Workbench: Section Tabs"
+          description="Switch between grouped configuration sections using an editor-like tab strip."
+          fill
+        >
+          <Tabs
+            panel
+            selectedIndex={selectedIndex}
+            onSelect={setSelectedIndex}
+            addons={<Button variant="secondary">Open Section</Button>}
+          >
+            <TabHeader>General</TabHeader>
+            <TabHeader>Search</TabHeader>
+            <TabHeader>Advanced</TabHeader>
+            <TabPanel panel>
+              <div style={{ padding: '12px 8px' }}>
+                General preferences and section content.
+              </div>
+            </TabPanel>
+            <TabPanel panel>
+              <div style={{ padding: '12px 8px' }}>
+                Search-related controls and indexing options.
+              </div>
+            </TabPanel>
+            <TabPanel panel>
+              <div style={{ padding: '12px 8px' }}>
+                Advanced configuration and hidden overrides.
+              </div>
+            </TabPanel>
+          </Tabs>
+        </FormGroup>
+        <FormGroup
+          label="Workbench: Split View"
+          description="Resize adjacent panes using the same sash interaction as VS Code split views."
+          fill
+        >
+          <div style={{ height: 260 }}>
+            <SplitLayout
+              split="vertical"
+              handlePosition={splitPosition}
+              initialHandlePosition="42%"
+              onChange={({ positionInPercentage }) =>
+                setSplitPosition(`${positionInPercentage}%`)
+              }
+              start={
+                <div style={{ height: '100%', padding: '12px' }}>
+                  Explorer pane
+                </div>
+              }
+              end={
+                <div style={{ height: '100%', padding: '12px' }}>
+                  Editor pane
+                </div>
+              }
+            />
+          </div>
+        </FormGroup>
+      </FormContainer>
+    </>
+  );
+}
+
 export const previews: PreviewDefinition[] = [
   {
     id: 'label',
@@ -403,5 +476,10 @@ export const previews: PreviewDefinition[] = [
     id: 'actions',
     title: 'Command Surface',
     render: () => <ActionsPreview />,
+  },
+  {
+    id: 'navigation-layout',
+    title: 'Navigation & Layout',
+    render: () => <NavigationLayoutPreview />,
   },
 ];
