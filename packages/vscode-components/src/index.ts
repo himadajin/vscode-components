@@ -9,6 +9,7 @@ export * from './components/TextInput';
 export * from './components/Textarea';
 export * from './components/Checkbox';
 export * from './components/Select';
+export * from './components/Collapsible';
 export * from './components/SettingItem';
 export * from './components/ListEditor';
 export * from './components/ObjectEditor';
