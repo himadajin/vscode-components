@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
 import { Collapsible } from '../Collapsible';
+import { FormContainer } from '../FormContainer';
+import { FormGroup } from '../FormGroup';
+import { FormHelper } from '../FormHelper';
 import { ListEditor } from '../ListEditor';
 import { Select } from '../Select';
 import { Textarea } from '../Textarea';
@@ -105,4 +108,55 @@ export const WithCollapsible: Story = {
       }
     />
   ),
+};
+
+export const WithFormLayout: Story = {
+  args: {
+    title: 'Editor: Inline Suggestions',
+    description: 'Embed a compact grouped form inside a setting row.',
+    className: 'setting-item setting-item-list',
+  },
+  render: (args) => {
+    const [delay, setDelay] = useState('150');
+    const [showToolbar, setShowToolbar] = useState(true);
+    const invalid = Number(delay) < 0;
+
+    return (
+      <SettingItem
+        {...args}
+        children={
+          <FormContainer style={{ width: '100%' }}>
+            <FormGroup
+              label="Editor: Inline Suggest Delay"
+              description="Controls the delay in milliseconds."
+              helper={
+                invalid ? (
+                  <FormHelper tone="error">
+                    The value must be 0 or greater.
+                  </FormHelper>
+                ) : (
+                  'Use 0 to show suggestions immediately.'
+                )
+              }
+              fill
+            >
+              <TextInput type="number" value={delay} onChange={setDelay} />
+            </FormGroup>
+            <FormGroup
+              label="Editor: Inline Suggest Toolbar"
+              description="Controls whether the inline suggestion toolbar is shown."
+              modified={showToolbar}
+            >
+              <Checkbox
+                toggle
+                checked={showToolbar}
+                onChange={setShowToolbar}
+                label={showToolbar ? 'Enabled' : 'Disabled'}
+              />
+            </FormGroup>
+          </FormContainer>
+        }
+      />
+    );
+  },
 };

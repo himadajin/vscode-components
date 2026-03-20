@@ -4,6 +4,9 @@ import {
   Button,
   Checkbox,
   Collapsible,
+  FormContainer,
+  FormGroup,
+  FormHelper,
   Icon,
   ListEditor,
   ObjectEditor,
@@ -79,6 +82,54 @@ function ControlsPreview() {
         />
       </SettingItem>
     </>
+  );
+}
+
+function FormPreview() {
+  const [fontSize, setFontSize] = useState('14');
+  const [fontFamily, setFontFamily] = useState('Consolas');
+  const [trimTrailingWhitespace, setTrimTrailingWhitespace] = useState(true);
+  const invalid = Number(fontSize) < 6 || Number(fontSize) > 100;
+
+  return (
+    <FormContainer>
+      <FormGroup
+        label="Editor: Font Size"
+        description="Controls the font size in pixels."
+        helper={
+          invalid ? (
+            <FormHelper tone="error">
+              The value must be an integer between 6 and 100.
+            </FormHelper>
+          ) : (
+            'Minimum value is 6.'
+          )
+        }
+        fill
+      >
+        <TextInput type="number" value={fontSize} onChange={setFontSize} />
+      </FormGroup>
+      <FormGroup
+        label="Editor: Font Family"
+        description="Controls the font family."
+        helper={<FormHelper tone="info">Comma separated font list.</FormHelper>}
+        fill
+      >
+        <TextInput value={fontFamily} onChange={setFontFamily} />
+      </FormGroup>
+      <FormGroup
+        label="Files: Trim Trailing Whitespace"
+        description="Remove trailing auto inserted whitespace."
+        modified={trimTrailingWhitespace}
+      >
+        <Checkbox
+          toggle
+          checked={trimTrailingWhitespace}
+          onChange={setTrimTrailingWhitespace}
+          label={trimTrailingWhitespace ? 'Enabled' : 'Disabled'}
+        />
+      </FormGroup>
+    </FormContainer>
   );
 }
 
@@ -226,6 +277,11 @@ function CollapsiblePreview() {
 }
 
 export const previews: PreviewDefinition[] = [
+  {
+    id: 'form',
+    title: 'Form Layout',
+    render: () => <FormPreview />,
+  },
   {
     id: 'controls',
     title: 'Primitive Controls',

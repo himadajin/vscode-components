@@ -1,0 +1,43 @@
+.root {
+  display: inline-block;
+  overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.4em;
+  margin-top: -1px;
+  font-size: 12px;
+  line-height: 17px;
+  text-align: left;
+  word-wrap: break-word;
+  border: 1px solid transparent;
+}
+
+.info {
+  color: var(--vscode-inputValidation-infoForeground, inherit);
+  background-color: var(--vscode-inputValidation-infoBackground, transparent);
+  border-color: var(--vscode-inputValidation-infoBorder, transparent);
+}
+
+.warning {
+  color: var(--vscode-inputValidation-warningForeground, inherit);
+  background-color: var(
+    --vscode-inputValidation-warningBackground,
+    transparent
+  );
+  border-color: var(--vscode-inputValidation-warningBorder, transparent);
+}
+
+.error {
+  color: var(--vscode-inputValidation-errorForeground, inherit);
+  background-color: var(--vscode-inputValidation-errorBackground, transparent);
+  border-color: var(--vscode-inputValidation-errorBorder, transparent);
+}
+
+.muted {
+  padding: 0;
+  margin-top: 0;
+  color: var(--vscode-descriptionForeground, var(--vscode-foreground));
+  background: transparent;
+  border: none;
+  opacity: 0.9;
+}
