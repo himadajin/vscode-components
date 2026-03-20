@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
+import { Collapsible } from '../Collapsible';
 import { ListEditor } from '../ListEditor';
 import { Select } from '../Select';
 import { Textarea } from '../Textarea';
@@ -66,4 +67,42 @@ export const WithListEditor: Story = {
       />
     );
   },
+};
+
+export const WithCollapsible: Story = {
+  args: {
+    title: 'Workbench: Startup Editor',
+    description: 'Controls which editor is shown at startup.',
+    className: 'setting-item setting-item-list',
+  },
+  render: (args) => (
+    <SettingItem
+      {...args}
+      children={
+        <Collapsible
+          title="Advanced startup rules"
+          description="workspace overrides"
+          defaultOpen
+        >
+          <div
+            style={{
+              width: '100%',
+              padding: '10px 8px 12px 22px',
+              display: 'grid',
+              gap: '8px',
+            }}
+          >
+            <TextInput
+              defaultValue="readme"
+              style={{ width: '100%', maxWidth: 'none' }}
+            />
+            <TextInput
+              defaultValue="welcomePage"
+              style={{ width: '100%', maxWidth: 'none' }}
+            />
+          </div>
+        </Collapsible>
+      }
+    />
+  ),
 };

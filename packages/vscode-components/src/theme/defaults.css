@@ -20,6 +20,10 @@
   --vscode-badge-foreground: #ffffff;
   --vscode-focusBorder: #007fd4;
   --vscode-icon-foreground: #c5c5c5;
+  --vscode-sideBar-background: #252526;
+  --vscode-sideBarTitle-foreground: #bbbbbb;
+  --vscode-sideBarSectionHeader-background: rgba(0, 0, 0, 0);
+  --vscode-sideBarSectionHeader-border: rgba(204, 204, 204, 0.2);
   --vscode-input-background: #313131;
   --vscode-input-foreground: #cccccc;
   --vscode-input-border: #3c3c3c;
@@ -54,6 +58,10 @@
   --vscode-badge-foreground: #333333;
   --vscode-focusBorder: #0090f1;
   --vscode-icon-foreground: #424242;
+  --vscode-sideBar-background: #f3f3f3;
+  --vscode-sideBarTitle-foreground: #6f6f6f;
+  --vscode-sideBarSectionHeader-background: rgba(0, 0, 0, 0);
+  --vscode-sideBarSectionHeader-border: rgba(97, 97, 97, 0.19);
   --vscode-input-background: #ffffff;
   --vscode-input-foreground: #3b3b3b;
   --vscode-input-border: #cecece;

@@ -1,0 +1,144 @@
+.root {
+  box-sizing: border-box;
+  display: block;
+  background-color: var(--vscode-sideBar-background, #181818);
+  border: 1px solid
+    var(
+      --vscode-sideBarSectionHeader-border,
+      var(--vscode-panel-border, transparent)
+    );
+  min-width: 0;
+  width: 100%;
+}
+
+.rootOpen .header {
+  border-bottom: 1px solid
+    var(
+      --vscode-sideBarSectionHeader-border,
+      var(--vscode-panel-border, transparent)
+    );
+}
+
+.header {
+  align-items: center;
+  background-color: var(--vscode-sideBarSectionHeader-background, #181818);
+  box-sizing: border-box;
+  display: flex;
+  font-size: 11px;
+  font-weight: 700;
+  overflow: hidden;
+  min-width: 0;
+  width: 100%;
+}
+
+.trigger {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: flex;
+  flex: 1 1 auto;
+  font: inherit;
+  height: 22px;
+  line-height: 22px;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+  user-select: none;
+  width: 100%;
+}
+
+.trigger:disabled {
+  cursor: default;
+}
+
+.trigger:focus-visible {
+  opacity: 1;
+  outline-color: var(--vscode-focusBorder, #0078d4);
+  outline-offset: -1px;
+  outline-style: solid;
+  outline-width: 1px;
+}
+
+.icon {
+  color: var(--vscode-icon-foreground, #cccccc);
+  display: block;
+  flex-shrink: 0;
+  margin: 0 3px;
+  transition: transform 0.1s linear;
+}
+
+.iconOpen {
+  transform: rotate(90deg);
+}
+
+.title {
+  color: var(--vscode-sideBarTitle-foreground, #cccccc);
+  display: block;
+  font-family: var(--vscode-font-family, sans-serif);
+  font-size: 11px;
+  font-weight: 700;
+  margin: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.description {
+  font-weight: 400;
+  margin-left: 10px;
+  opacity: 0.6;
+  text-transform: none;
+}
+
+.headerSlots {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  height: 22px;
+  margin-left: auto;
+  margin-right: 4px;
+  overflow: hidden;
+}
+
+.decorations {
+  display: flex;
+  max-height: 22px;
+  overflow: hidden;
+}
+
+.decorations > * {
+  align-items: center;
+  display: flex;
+}
+
+.actions {
+  display: none;
+  max-height: 22px;
+  overflow: hidden;
+}
+
+.actionsOpen {
+  display: flex;
+}
+
+.actions > * {
+  align-items: center;
+  display: flex;
+}
+
+.body {
+  display: none;
+  flex: 1;
+  min-width: 0;
+  overflow: visible;
+  width: 100%;
+}
+
+.bodyOpen {
+  display: block;
+}

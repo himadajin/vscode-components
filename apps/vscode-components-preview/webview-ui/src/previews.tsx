@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   Checkbox,
+  Collapsible,
   Icon,
   ListEditor,
   ObjectEditor,
@@ -166,11 +167,74 @@ function ActionsPreview() {
   );
 }
 
+function CollapsiblePreview() {
+  const [explorerOpen, setExplorerOpen] = useState(true);
+  const [rulesOpen, setRulesOpen] = useState(true);
+
+  return (
+    <>
+      <Collapsible
+        title="Files Explorer"
+        description="3 changes"
+        open={explorerOpen}
+        onOpenChange={setExplorerOpen}
+        decorations={<Badge variant="counter">3</Badge>}
+        actions={
+          <Button variant="secondary" onClick={() => setExplorerOpen(true)}>
+            Reveal All
+          </Button>
+        }
+      >
+        <div style={{ padding: '10px 8px 12px 22px' }}>
+          <div>src</div>
+          <div>package.json</div>
+          <div>README.md</div>
+        </div>
+      </Collapsible>
+      <SettingItem
+        title="Workbench: Startup Editor"
+        description="Controls which editor is shown at startup."
+        className="setting-item setting-item-list"
+      >
+        <Collapsible
+          title="Advanced startup rules"
+          description="workspace overrides"
+          open={rulesOpen}
+          onOpenChange={setRulesOpen}
+        >
+          <div
+            style={{
+              width: '100%',
+              padding: '10px 8px 12px 22px',
+              display: 'grid',
+              gap: '8px',
+            }}
+          >
+            <TextInput
+              defaultValue="readme"
+              style={{ width: '100%', maxWidth: 'none' }}
+            />
+            <TextInput
+              defaultValue="welcomePage"
+              style={{ width: '100%', maxWidth: 'none' }}
+            />
+          </div>
+        </Collapsible>
+      </SettingItem>
+    </>
+  );
+}
+
 export const previews: PreviewDefinition[] = [
   {
     id: 'controls',
     title: 'Primitive Controls',
     render: () => <ControlsPreview />,
+  },
+  {
+    id: 'collapsible',
+    title: 'Collapsible Sections',
+    render: () => <CollapsiblePreview />,
   },
   {
     id: 'collections',
