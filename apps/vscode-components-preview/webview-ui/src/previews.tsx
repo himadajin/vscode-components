@@ -4,10 +4,16 @@ import {
   Button,
   Checkbox,
   Collapsible,
+  Divider,
+  FormContainer,
+  FormGroup,
+  FormHelper,
   Icon,
   Label,
   ListEditor,
   ObjectEditor,
+  Radio,
+  RadioGroup,
   Select,
   SettingItem,
   Textarea,
@@ -24,6 +30,7 @@ function ControlsPreview() {
   const [fontSize, setFontSize] = useState('14');
   const [autoSave, setAutoSave] = useState(true);
   const [theme, setTheme] = useState('Default Dark+');
+  const [target, setTarget] = useState('workspace');
   const [systemPrompt, setSystemPrompt] = useState(
     'You are a precise assistant.\nSummarize changes before proposing code.',
   );
@@ -67,6 +74,17 @@ function ControlsPreview() {
         />
       </SettingItem>
       <SettingItem
+        title="Workbench: Preferred Settings Target"
+        description="Controls where a changed setting is written when multiple scopes are available."
+        className="setting-item setting-item-enum"
+      >
+        <RadioGroup orientation="vertical" value={target} onChange={setTarget}>
+          <Radio value="user">User</Radio>
+          <Radio value="workspace">Workspace</Radio>
+          <Radio value="folder">Folder</Radio>
+        </RadioGroup>
+      </SettingItem>
+      <SettingItem
         title="Chat: System Prompt"
         description="Provides the base prompt used for prompt-driven editing and review tasks."
         className="setting-item setting-item-text"
@@ -78,6 +96,24 @@ function ControlsPreview() {
           onChange={setSystemPrompt}
           placeholder="Enter a system prompt"
         />
+      </SettingItem>
+      <Divider />
+      <SettingItem
+        title="Chat: Command Prefix"
+        description="Separates the main prompt from the optional command prefix used by slash-style actions."
+        className="setting-item setting-item-text"
+      >
+        <div style={{ width: '100%', maxWidth: 420 }}>
+          <TextInput
+            defaultValue="/review"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+          <Divider />
+          <TextInput
+            defaultValue="/fix"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+        </div>
       </SettingItem>
     </>
   );
@@ -127,6 +163,54 @@ function LabelPreview() {
         </div>
       </SettingItem>
     </>
+  );
+}
+
+function FormPreview() {
+  const [fontSize, setFontSize] = useState('14');
+  const [fontFamily, setFontFamily] = useState('Consolas');
+  const [trimTrailingWhitespace, setTrimTrailingWhitespace] = useState(true);
+  const invalid = Number(fontSize) < 6 || Number(fontSize) > 100;
+
+  return (
+    <FormContainer>
+      <FormGroup
+        label="Editor: Font Size"
+        description="Controls the font size in pixels."
+        helper={
+          invalid ? (
+            <FormHelper tone="error">
+              The value must be an integer between 6 and 100.
+            </FormHelper>
+          ) : (
+            'Minimum value is 6.'
+          )
+        }
+        fill
+      >
+        <TextInput type="number" value={fontSize} onChange={setFontSize} />
+      </FormGroup>
+      <FormGroup
+        label="Editor: Font Family"
+        description="Controls the font family."
+        helper={<FormHelper tone="info">Comma separated font list.</FormHelper>}
+        fill
+      >
+        <TextInput value={fontFamily} onChange={setFontFamily} />
+      </FormGroup>
+      <FormGroup
+        label="Files: Trim Trailing Whitespace"
+        description="Remove trailing auto inserted whitespace."
+        modified={trimTrailingWhitespace}
+      >
+        <Checkbox
+          toggle
+          checked={trimTrailingWhitespace}
+          onChange={setTrimTrailingWhitespace}
+          label={trimTrailingWhitespace ? 'Enabled' : 'Disabled'}
+        />
+      </FormGroup>
+    </FormContainer>
   );
 }
 
@@ -278,6 +362,11 @@ export const previews: PreviewDefinition[] = [
     id: 'label',
     title: 'Labels',
     render: () => <LabelPreview />,
+  },
+  {
+    id: 'form',
+    title: 'Form Layout',
+    render: () => <FormPreview />,
   },
   {
     id: 'controls',

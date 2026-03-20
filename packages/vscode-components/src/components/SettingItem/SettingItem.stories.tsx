@@ -3,7 +3,13 @@ import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
 import { Collapsible } from '../Collapsible';
 import { Label } from '../Label';
+import { Divider } from '../Divider';
+import { FormContainer } from '../FormContainer';
+import { FormGroup } from '../FormGroup';
+import { FormHelper } from '../FormHelper';
 import { ListEditor } from '../ListEditor';
+import { Radio } from '../Radio';
+import { RadioGroup } from '../RadioGroup';
 import { Select } from '../Select';
 import { Textarea } from '../Textarea';
 import { TextInput } from '../TextInput';
@@ -40,6 +46,28 @@ export const WithSelect: Story = {
   args: {
     title: 'Workbench: Color Theme',
     children: <Select enum={['Default Dark+', 'Light+', 'High Contrast']} />,
+  },
+};
+export const WithRadioGroup: Story = {
+  args: {
+    title: 'Workbench: Preferred Settings Target',
+    description:
+      'Controls where a changed setting is written when multiple scopes are available.',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('workspace');
+    return (
+      <SettingItem
+        {...args}
+        children={
+          <RadioGroup orientation="vertical" value={value} onChange={setValue}>
+            <Radio value="user">User</Radio>
+            <Radio value="workspace">Workspace</Radio>
+            <Radio value="folder">Folder</Radio>
+          </RadioGroup>
+        }
+      />
+    );
   },
 };
 export const WithTextarea: Story = {
@@ -146,6 +174,82 @@ export const WithCollapsible: Story = {
             />
           </div>
         </Collapsible>
+      }
+    />
+  ),
+};
+
+export const WithFormLayout: Story = {
+  args: {
+    title: 'Editor: Inline Suggestions',
+    description: 'Embed a compact grouped form inside a setting row.',
+    className: 'setting-item setting-item-list',
+  },
+  render: (args) => {
+    const [delay, setDelay] = useState('150');
+    const [showToolbar, setShowToolbar] = useState(true);
+    const invalid = Number(delay) < 0;
+
+    return (
+      <SettingItem
+        {...args}
+        children={
+          <FormContainer style={{ width: '100%' }}>
+            <FormGroup
+              label="Editor: Inline Suggest Delay"
+              description="Controls the delay in milliseconds."
+              helper={
+                invalid ? (
+                  <FormHelper tone="error">
+                    The value must be 0 or greater.
+                  </FormHelper>
+                ) : (
+                  'Use 0 to show suggestions immediately.'
+                )
+              }
+              fill
+            >
+              <TextInput type="number" value={delay} onChange={setDelay} />
+            </FormGroup>
+            <FormGroup
+              label="Editor: Inline Suggest Toolbar"
+              description="Controls whether the inline suggestion toolbar is shown."
+              modified={showToolbar}
+            >
+              <Checkbox
+                toggle
+                checked={showToolbar}
+                onChange={setShowToolbar}
+                label={showToolbar ? 'Enabled' : 'Disabled'}
+              />
+            </FormGroup>
+          </FormContainer>
+        }
+      />
+    );
+  },
+};
+
+export const WithDividerBetweenGroups: Story = {
+  args: {
+    title: 'Search: Quick Open History Filter',
+  },
+  render: (args) => (
+    <SettingItem
+      {...args}
+      description="Separates primary and secondary actions inside the same setting row."
+      children={
+        <div style={{ width: '100%', maxWidth: 320 }}>
+          <TextInput
+            defaultValue="default"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+          <Divider />
+          <TextInput
+            defaultValue="files.exclude"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+        </div>
       }
     />
   ),

@@ -9,9 +9,16 @@
   --vscode-settings-textInputBackground: #313131;
   --vscode-settings-textInputForeground: #cccccc;
   --vscode-settings-textInputBorder: #3c3c3c;
+  --vscode-settings-checkboxBackground: #313131;
+  --vscode-settings-checkboxForeground: #cccccc;
+  --vscode-settings-checkboxBorder: #3c3c3c;
   --vscode-settings-dropdownBackground: #313131;
   --vscode-settings-dropdownForeground: #cccccc;
   --vscode-settings-dropdownBorder: #3c3c3c;
+  --vscode-inputOption-hoverBackground: transparent;
+  --vscode-inputOption-activeForeground: #ffffff;
+  --vscode-inputOption-activeBackground: #0e639c50;
+  --vscode-inputOption-activeBorder: #007acc00;
   --vscode-button-background: #0e639c;
   --vscode-button-foreground: #ffffff;
   --vscode-button-secondaryBackground: #3a3d41;
@@ -35,6 +42,11 @@
   --vscode-settings-focusedRowBorder: #007fd4;
   --vscode-settings-modifiedItemIndicator: #0c7d9d;
   --vscode-list-hoverBackground: rgba(255, 255, 255, 0.04);
+  --vscode-list-hoverForeground: #ffffff;
+  --vscode-list-activeSelectionBackground: #04395e;
+  --vscode-list-activeSelectionForeground: #ffffff;
+  --vscode-list-inactiveSelectionBackground: rgba(255, 255, 255, 0.04);
+  --vscode-list-inactiveSelectionForeground: #ffffff;
   --vscode-panel-border: rgba(255, 255, 255, 0.08);
   --vscode-errorForeground: #f48771;
 }
@@ -47,9 +59,16 @@
   --vscode-settings-textInputBackground: #ffffff;
   --vscode-settings-textInputForeground: #3b3b3b;
   --vscode-settings-textInputBorder: #cecece;
+  --vscode-settings-checkboxBackground: #ffffff;
+  --vscode-settings-checkboxForeground: #3b3b3b;
+  --vscode-settings-checkboxBorder: #cecece;
   --vscode-settings-dropdownBackground: #ffffff;
   --vscode-settings-dropdownForeground: #3b3b3b;
   --vscode-settings-dropdownBorder: #cecece;
+  --vscode-inputOption-hoverBackground: transparent;
+  --vscode-inputOption-activeForeground: #ffffff;
+  --vscode-inputOption-activeBackground: rgba(0, 120, 212, 0.25);
+  --vscode-inputOption-activeBorder: #0078d400;
   --vscode-button-background: #0078d4;
   --vscode-button-foreground: #ffffff;
   --vscode-button-secondaryBackground: #e5e5e5;
@@ -73,6 +92,11 @@
   --vscode-settings-focusedRowBorder: #0090f1;
   --vscode-settings-modifiedItemIndicator: #0090f1;
   --vscode-list-hoverBackground: rgba(0, 0, 0, 0.04);
+  --vscode-list-hoverForeground: #3b3b3b;
+  --vscode-list-activeSelectionBackground: #cce6ff;
+  --vscode-list-activeSelectionForeground: #000000;
+  --vscode-list-inactiveSelectionBackground: rgba(0, 0, 0, 0.04);
+  --vscode-list-inactiveSelectionForeground: #3b3b3b;
   --vscode-panel-border: rgba(0, 0, 0, 0.12);
   --vscode-errorForeground: #c72e0f;
 }

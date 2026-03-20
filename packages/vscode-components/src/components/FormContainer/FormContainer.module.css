@@ -1,0 +1,12 @@
+.root {
+  display: block;
+  width: 100%;
+}
+
+.root > * {
+  border-top: 1px solid transparent;
+}
+
+.root > *:hover {
+  background-color: var(--vscode-settings-rowHoverBackground);
+}

@@ -1,0 +1,92 @@
+.root {
+  color: var(--vscode-foreground);
+  cursor: pointer;
+  display: inline-block;
+  font-family: var(--vscode-font-family);
+  font-size: var(--vscode-font-size);
+  font-weight: 400;
+  line-height: 18px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  max-width: 100%;
+  position: relative;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.empty {
+  min-width: 18px;
+}
+
+.input {
+  position: absolute;
+  height: 1px;
+  left: 9px;
+  margin: 0;
+  overflow: hidden;
+  top: 17px;
+  white-space: nowrap;
+  width: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+}
+
+.control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--vscode-settings-checkboxBorder, #3c3c3c);
+  border-radius: 9px;
+  background-color: var(--vscode-settings-checkboxBackground, #313131);
+  box-sizing: border-box;
+}
+
+.dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 4px;
+  background-color: var(--vscode-settings-checkboxForeground, #cccccc);
+  content: '';
+  opacity: 0;
+}
+
+.checked .dot {
+  opacity: 1;
+}
+
+.root:hover .control {
+  background-color: var(--vscode-inputOption-hoverBackground, transparent);
+}
+
+.input:focus-visible + .control {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+.invalid .control {
+  background-color: var(--vscode-inputValidation-errorBackground);
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+.content {
+  display: block;
+  min-height: 18px;
+  min-width: 0;
+  opacity: 0.9;
+  padding-left: 27px;
+  word-break: break-word;
+}
+
+.empty .content {
+  padding-left: 0;
+}
