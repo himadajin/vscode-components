@@ -88,10 +88,6 @@ code {
   border-top: 1px solid transparent;
 }
 
-.preview-card .setting-item:hover {
-  background-color: var(--vscode-settings-rowHoverBackground);
-}
-
 .preview-card .setting-item.setting-item-bool,
 .preview-card .setting-item.setting-item-list {
   padding-bottom: 26px;
