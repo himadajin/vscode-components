@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Badge } from '../Badge';
 import { Button } from '../Button';
-import { SettingItem } from '../SettingItem';
+import { FormContainer } from '../FormContainer';
+import { FormGroup } from '../FormGroup';
 import { TextInput } from '../TextInput';
 import { Collapsible } from './Collapsible';
 
@@ -69,36 +70,39 @@ export const Controlled: Story = {
   },
 };
 
-export const InsideSettingItem: Story = {
+export const InsideFormGroup: Story = {
   render: () => (
-    <SettingItem
-      title="Workbench: Startup Editor"
-      description="Controls which editor is shown at startup."
-      className="setting-item setting-item-list"
-    >
-      <Collapsible
-        title="Advanced startup rules"
-        description="workspace overrides"
-        defaultOpen
+    <FormContainer>
+      <FormGroup
+        label="Workbench: Startup Editor"
+        description="Controls which editor is shown at startup."
+        helper="Expand advanced rules to configure workspace-specific fallbacks."
+        fill
       >
-        <div
-          style={{
-            width: '100%',
-            padding: '10px 8px 12px 22px',
-            display: 'grid',
-            gap: '8px',
-          }}
+        <Collapsible
+          title="Advanced startup rules"
+          description="workspace overrides"
+          defaultOpen
         >
-          <TextInput
-            defaultValue="readme"
-            style={{ width: '100%', maxWidth: 'none' }}
-          />
-          <TextInput
-            defaultValue="welcomePage"
-            style={{ width: '100%', maxWidth: 'none' }}
-          />
-        </div>
-      </Collapsible>
-    </SettingItem>
+          <div
+            style={{
+              width: '100%',
+              padding: '10px 8px 12px 22px',
+              display: 'grid',
+              gap: '8px',
+            }}
+          >
+            <TextInput
+              defaultValue="readme"
+              style={{ width: '100%', maxWidth: 'none' }}
+            />
+            <TextInput
+              defaultValue="welcomePage"
+              style={{ width: '100%', maxWidth: 'none' }}
+            />
+          </div>
+        </Collapsible>
+      </FormGroup>
+    </FormContainer>
   ),
 };
