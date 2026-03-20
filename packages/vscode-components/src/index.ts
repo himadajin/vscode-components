@@ -9,6 +9,8 @@ export * from './components/Icon';
 export * from './components/TextInput';
 export * from './components/Textarea';
 export * from './components/Checkbox';
+export * from './components/Radio';
+export * from './components/RadioGroup';
 export * from './components/Select';
 export * from './components/Collapsible';
 export * from './components/SettingItem';

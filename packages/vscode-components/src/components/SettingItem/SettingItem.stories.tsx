@@ -4,6 +4,8 @@ import { Checkbox } from '../Checkbox';
 import { Collapsible } from '../Collapsible';
 import { Divider } from '../Divider';
 import { ListEditor } from '../ListEditor';
+import { Radio } from '../Radio';
+import { RadioGroup } from '../RadioGroup';
 import { Select } from '../Select';
 import { Textarea } from '../Textarea';
 import { TextInput } from '../TextInput';
@@ -40,6 +42,28 @@ export const WithSelect: Story = {
   args: {
     title: 'Workbench: Color Theme',
     children: <Select enum={['Default Dark+', 'Light+', 'High Contrast']} />,
+  },
+};
+export const WithRadioGroup: Story = {
+  args: {
+    title: 'Workbench: Preferred Settings Target',
+    description:
+      'Controls where a changed setting is written when multiple scopes are available.',
+  },
+  render: (args) => {
+    const [value, setValue] = useState('workspace');
+    return (
+      <SettingItem
+        {...args}
+        children={
+          <RadioGroup orientation="vertical" value={value} onChange={setValue}>
+            <Radio value="user">User</Radio>
+            <Radio value="workspace">Workspace</Radio>
+            <Radio value="folder">Folder</Radio>
+          </RadioGroup>
+        }
+      />
+    );
   },
 };
 export const WithTextarea: Story = {

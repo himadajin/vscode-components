@@ -8,6 +8,8 @@ import {
   Icon,
   ListEditor,
   ObjectEditor,
+  Radio,
+  RadioGroup,
   Select,
   SettingItem,
   Textarea,
@@ -24,6 +26,7 @@ function ControlsPreview() {
   const [fontSize, setFontSize] = useState('14');
   const [autoSave, setAutoSave] = useState(true);
   const [theme, setTheme] = useState('Default Dark+');
+  const [target, setTarget] = useState('workspace');
   const [systemPrompt, setSystemPrompt] = useState(
     'You are a precise assistant.\nSummarize changes before proposing code.',
   );
@@ -65,6 +68,17 @@ function ControlsPreview() {
           value={theme}
           onChange={setTheme}
         />
+      </SettingItem>
+      <SettingItem
+        title="Workbench: Preferred Settings Target"
+        description="Controls where a changed setting is written when multiple scopes are available."
+        className="setting-item setting-item-enum"
+      >
+        <RadioGroup orientation="vertical" value={target} onChange={setTarget}>
+          <Radio value="user">User</Radio>
+          <Radio value="workspace">Workspace</Radio>
+          <Radio value="folder">Folder</Radio>
+        </RadioGroup>
       </SettingItem>
       <SettingItem
         title="Chat: System Prompt"
