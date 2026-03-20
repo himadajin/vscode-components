@@ -1,0 +1,55 @@
+import type { Meta, StoryObj } from '@storybook/react';
+import { useState } from 'react';
+import { Checkbox } from '../Checkbox';
+import { ListEditor } from '../ListEditor';
+import { Select } from '../Select';
+import { TextInput } from '../TextInput';
+import { SettingItem } from './SettingItem';
+
+const meta = {
+  title: 'Layout/SettingItem',
+  component: SettingItem,
+  parameters: {
+    layout: 'fullscreen',
+    vscodePreview: 'settings',
+  },
+  args: {
+    title: 'Editor: Font Size',
+    description: 'Controls the font size in pixels.',
+    children: <TextInput defaultValue={14} type="number" />,
+  },
+} satisfies Meta<typeof SettingItem>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {};
+export const WithCategory: Story = { args: { category: 'Editor > Font' } };
+export const Modified: Story = { args: { modified: true } };
+export const WithCheckbox: Story = {
+  args: {
+    title: 'Files: Auto Save',
+    children: <Checkbox label="Enabled" defaultChecked />,
+  },
+};
+export const WithSelect: Story = {
+  args: {
+    title: 'Workbench: Color Theme',
+    children: <Select enum={['Default Dark+', 'Light+', 'High Contrast']} />,
+  },
+};
+export const WithListEditor: Story = {
+  args: {
+    title: 'Files: Associations',
+  },
+  render: (args) => {
+    const [value, setValue] = useState(['*.md', '*.txt']);
+    return (
+      <SettingItem
+        {...args}
+        children={<ListEditor value={value} onChange={setValue} />}
+      />
+    );
+  },
+};

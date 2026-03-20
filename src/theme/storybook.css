@@ -1,0 +1,16 @@
+.storybook-vscode-settings-shell {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px 0;
+  background: var(--vscode-editor-background);
+  display: flex;
+  align-items: center;
+}
+
+.storybook-vscode-settings-row {
+  width: min(100%, 1400px);
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-left: 24px;
+  padding-right: 24px;
+}

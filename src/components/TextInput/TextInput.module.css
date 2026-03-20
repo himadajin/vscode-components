@@ -1,0 +1,18 @@
+.root {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.string {
+  width: min(420px, 100%);
+}
+
+.number {
+  width: min(200px, 100%);
+  min-width: 200px;
+}
+
+.fill {
+  width: 100%;
+  max-width: none;
+}
