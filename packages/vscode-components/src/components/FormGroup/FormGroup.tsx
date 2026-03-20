@@ -1,6 +1,7 @@
 import { cloneElement, isValidElement, useId } from 'react';
 import type { FormHelperProps } from '../FormHelper';
 import { FormHelper } from '../FormHelper';
+import { Label } from '../Label';
 import styles from './FormGroup.module.css';
 
 type ControlElementProps = {
@@ -10,6 +11,7 @@ type ControlElementProps = {
 
 export interface FormGroupProps extends React.HTMLAttributes<HTMLElement> {
   label: React.ReactNode;
+  category?: React.ReactNode;
   description?: React.ReactNode;
   helper?: React.ReactNode;
   children: React.ReactNode;
@@ -27,6 +29,7 @@ function mergeDescribedBy(
 
 export function FormGroup({
   label,
+  category,
   description,
   helper,
   children,
@@ -67,16 +70,14 @@ export function FormGroup({
 
   return (
     <section className={classes} {...props}>
-      <div className={styles.header}>
-        <label className={styles.label} htmlFor={resolvedControlId}>
-          {label}
-        </label>
-      </div>
-      {description ? (
-        <div id={descriptionId} className={styles.description}>
-          {description}
-        </div>
-      ) : null}
+      <Label
+        category={category}
+        htmlFor={resolvedControlId}
+        description={description}
+        descriptionId={descriptionId}
+      >
+        {label}
+      </Label>
       <div className={styles.control}>{control}</div>
       {helper ? (
         <div className={styles.helper}>

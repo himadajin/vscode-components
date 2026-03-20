@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { SettingItem } from '../SettingItem';
+import { FormContainer } from '../FormContainer';
+import { FormGroup } from '../FormGroup';
 import { Divider } from './Divider';
 
 const meta = {
@@ -30,20 +31,20 @@ export const InSettingsLayout: Story = {
     layout: 'fullscreen',
   },
   render: () => (
-    <>
-      <SettingItem
-        title="Workbench: Startup Editor"
+    <FormContainer>
+      <FormGroup
+        label="Workbench: Startup Editor"
         description="Controls which editor is shown at startup."
       >
         <div>readme</div>
-      </SettingItem>
+      </FormGroup>
       <Divider />
-      <SettingItem
-        title="Workbench: Tree Indent"
+      <FormGroup
+        label="Workbench: Tree Indent"
         description="Controls tree indentation in pixels."
       >
         <div>8</div>
-      </SettingItem>
-    </>
+      </FormGroup>
+    </FormContainer>
   ),
 };

@@ -88,10 +88,6 @@ code {
   border-top: 1px solid transparent;
 }
 
-.preview-card .setting-item:hover {
-  background-color: var(--vscode-settings-rowHoverBackground);
-}
-
 .preview-card .setting-item.setting-item-bool,
 .preview-card .setting-item.setting-item-list {
   padding-bottom: 26px;
@@ -100,6 +96,22 @@ code {
 .preview-card .setting-item .setting-item-value {
   margin-top: 9px;
   display: flex;
+}
+
+.preview-inline-setting {
+  position: relative;
+  padding: 12px 14px 18px;
+  white-space: normal;
+  outline-offset: -1px;
+}
+
+.preview-inline-setting:hover {
+  background: var(--vscode-settings-rowHoverBackground);
+}
+
+.preview-inline-setting:focus-within {
+  background: var(--vscode-settings-focusedRowBackground);
+  outline: 1px solid var(--vscode-settings-focusedRowBorder);
 }
 
 .preview-card .setting-item.setting-item-number .setting-item-value > * {
