@@ -63,15 +63,14 @@
 }
 
 .icon {
+  align-items: center;
   color: var(--vscode-icon-foreground, #cccccc);
-  display: block;
+  display: inline-flex;
   flex-shrink: 0;
-  margin: 0 3px;
-  transition: transform 0.1s linear;
-}
-
-.iconOpen {
-  transform: rotate(90deg);
+  height: 22px;
+  justify-content: center;
+  margin: 0 2px;
+  width: 16px;
 }
 
 .title {
