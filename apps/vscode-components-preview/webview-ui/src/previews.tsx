@@ -5,6 +5,7 @@ import {
   Checkbox,
   Collapsible,
   Icon,
+  Label,
   ListEditor,
   ObjectEditor,
   Select,
@@ -77,6 +78,53 @@ function ControlsPreview() {
           onChange={setSystemPrompt}
           placeholder="Enter a system prompt"
         />
+      </SettingItem>
+    </>
+  );
+}
+
+function LabelPreview() {
+  return (
+    <>
+      <div style={{ width: 'min(420px, 100%)', marginBottom: 18 }}>
+        <Label
+          category="Editor > Font"
+          htmlFor="preview-label-font-size"
+          description="Controls the font size in pixels."
+        >
+          Editor: Font Size
+        </Label>
+        <div style={{ marginTop: 9 }}>
+          <TextInput
+            id="preview-label-font-size"
+            defaultValue={14}
+            type="number"
+          />
+        </div>
+      </div>
+      <SettingItem
+        title="Accessibility: Accessible Form Labels"
+        description="Uses the standalone Label component inside a setting row for additional control-specific context."
+        className="setting-item setting-item-text"
+      >
+        <div
+          style={{
+            width: 'min(420px, 100%)',
+            display: 'grid',
+            gap: '9px',
+          }}
+        >
+          <Label
+            htmlFor="preview-command-alias"
+            description="Clicking this text should focus the input below."
+          >
+            Command Alias
+          </Label>
+          <TextInput
+            id="preview-command-alias"
+            defaultValue="workbench.action.showCommands"
+          />
+        </div>
       </SettingItem>
     </>
   );
@@ -226,6 +274,11 @@ function CollapsiblePreview() {
 }
 
 export const previews: PreviewDefinition[] = [
+  {
+    id: 'label',
+    title: 'Labels',
+    render: () => <LabelPreview />,
+  },
   {
     id: 'controls',
     title: 'Primitive Controls',
