@@ -18,6 +18,9 @@ interface VSCodeIntrinsicElements {
     disabled?: boolean;
     indeterminate?: boolean;
   };
+  'vscode-divider': HTMLElementProps<HTMLElement> & {
+    role?: 'separator' | 'presentation';
+  };
   'vscode-option': HTMLElementProps<HTMLOptionElement> & {
     value?: string;
     selected?: boolean;

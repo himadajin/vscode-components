@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
 import { Collapsible } from '../Collapsible';
+import { Divider } from '../Divider';
 import { ListEditor } from '../ListEditor';
 import { Radio } from '../Radio';
 import { RadioGroup } from '../RadioGroup';
@@ -126,6 +127,31 @@ export const WithCollapsible: Story = {
             />
           </div>
         </Collapsible>
+      }
+    />
+  ),
+};
+
+export const WithDividerBetweenGroups: Story = {
+  args: {
+    title: 'Search: Quick Open History Filter',
+  },
+  render: (args) => (
+    <SettingItem
+      {...args}
+      description="Separates primary and secondary actions inside the same setting row."
+      children={
+        <div style={{ width: '100%', maxWidth: 320 }}>
+          <TextInput
+            defaultValue="default"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+          <Divider />
+          <TextInput
+            defaultValue="files.exclude"
+            style={{ width: '100%', maxWidth: 'none' }}
+          />
+        </div>
       }
     />
   ),
