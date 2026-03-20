@@ -1,0 +1,102 @@
+.root {
+  position: relative;
+  display: inline-block;
+  width: min(420px, 100%);
+  max-width: 100%;
+  font-size: inherit;
+}
+
+.root.invalid .input {
+  border-color: var(--vscode-inputValidation-errorBorder, #be1100);
+  background-color: var(--vscode-inputValidation-errorBackground, #5a1d1d);
+}
+
+.root.disabled {
+  opacity: 1;
+}
+
+.input,
+.mirror {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 4px 6px;
+}
+
+.input {
+  display: block;
+  border: 1px solid
+    var(
+      --vscode-input-border,
+      var(--vscode-settings-textInputBorder, transparent)
+    );
+  border-radius: 4px;
+  outline: none;
+  background-color: var(
+    --vscode-input-background,
+    var(--vscode-settings-textInputBackground, #3c3c3c)
+  );
+  color: var(
+    --vscode-input-foreground,
+    var(--vscode-settings-textInputForeground, #cccccc)
+  );
+  font: inherit;
+  line-height: inherit;
+  resize: none;
+  overflow-y: hidden;
+}
+
+.root:focus-within .input {
+  border-color: var(--vscode-focusBorder, #007fd4);
+}
+
+.input::-webkit-scrollbar {
+  display: none;
+}
+
+.input.empty {
+  white-space: nowrap;
+}
+
+.input::placeholder {
+  color: var(--vscode-input-placeholderForeground, #989898);
+  opacity: 1;
+}
+
+.input:disabled {
+  cursor: default;
+}
+
+.input:read-only:not(:disabled) {
+  cursor: text;
+}
+
+.mirror {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  pointer-events: none;
+}
+
+.monospace {
+}
+
+.monospace .input,
+.monospace .mirror {
+  background-color: var(--vscode-editor-background, inherit);
+  color: var(--vscode-editor-foreground, inherit);
+  font-family: var(--vscode-editor-font-family, inherit);
+  font-size: var(--vscode-editor-font-size, inherit);
+  font-weight: var(--vscode-editor-font-weight, inherit);
+}
+
+.monospace .input::placeholder {
+  color: var(--vscode-editor-inlineValuesForeground, #989898);
+}
+
+.fill {
+  width: 100%;
+  max-width: none;
+}

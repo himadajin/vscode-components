@@ -23,6 +23,9 @@
   --vscode-input-background: #313131;
   --vscode-input-foreground: #cccccc;
   --vscode-input-border: #3c3c3c;
+  --vscode-inputValidation-errorBackground: #5a1d1d;
+  --vscode-inputValidation-errorBorder: #be1100;
+  --vscode-inputValidation-errorForeground: #ffffff;
   --vscode-settings-rowHoverBackground: rgba(255, 255, 255, 0.04);
   --vscode-settings-focusedRowBackground: rgba(255, 255, 255, 0.06);
   --vscode-settings-focusedRowBorder: #007fd4;
@@ -54,6 +57,9 @@
   --vscode-input-background: #ffffff;
   --vscode-input-foreground: #3b3b3b;
   --vscode-input-border: #cecece;
+  --vscode-inputValidation-errorBackground: #fbeaea;
+  --vscode-inputValidation-errorBorder: #be1100;
+  --vscode-inputValidation-errorForeground: #3b3b3b;
   --vscode-settings-rowHoverBackground: rgba(0, 0, 0, 0.04);
   --vscode-settings-focusedRowBackground: rgba(0, 0, 0, 0.06);
   --vscode-settings-focusedRowBorder: #0090f1;
