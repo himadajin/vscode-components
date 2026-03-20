@@ -11,6 +11,7 @@ type ControlElementProps = {
 
 export interface FormGroupProps extends React.HTMLAttributes<HTMLElement> {
   label: React.ReactNode;
+  category?: React.ReactNode;
   description?: React.ReactNode;
   helper?: React.ReactNode;
   children: React.ReactNode;
@@ -28,6 +29,7 @@ function mergeDescribedBy(
 
 export function FormGroup({
   label,
+  category,
   description,
   helper,
   children,
@@ -69,6 +71,7 @@ export function FormGroup({
   return (
     <section className={classes} {...props}>
       <Label
+        category={category}
         htmlFor={resolvedControlId}
         description={description}
         descriptionId={descriptionId}

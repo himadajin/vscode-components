@@ -15,7 +15,6 @@ import {
   Radio,
   RadioGroup,
   Select,
-  SettingItem,
   Textarea,
   TextInput,
 } from 'vscode-components';
@@ -36,12 +35,12 @@ function ControlsPreview() {
   );
 
   return (
-    <>
-      <SettingItem
+    <FormContainer>
+      <FormGroup
         category="Editor > Font"
-        title="Editor: Font Size"
+        label="Editor: Font Size"
         description="Controls the font size in pixels."
-        className="setting-item setting-item-number"
+        fill
       >
         <TextInput
           type="number"
@@ -49,45 +48,43 @@ function ControlsPreview() {
           onChange={setFontSize}
           placeholder="14"
         />
-      </SettingItem>
-      <SettingItem
-        title="Files: Auto Save"
+      </FormGroup>
+      <FormGroup
+        label="Files: Auto Save"
         description="Saves dirty files automatically after a short delay."
         modified={autoSave}
-        className="setting-item setting-item-bool"
       >
         <Checkbox
           label={autoSave ? 'Enabled' : 'Disabled'}
           checked={autoSave}
           onChange={setAutoSave}
         />
-      </SettingItem>
-      <SettingItem
-        title="Workbench: Color Theme"
+      </FormGroup>
+      <FormGroup
+        label="Workbench: Color Theme"
         description="Specifies the color theme used in the workbench."
-        className="setting-item setting-item-enum"
+        fill
       >
         <Select
           enum={['Default Dark+', 'Light+', 'High Contrast Dark']}
           value={theme}
           onChange={setTheme}
         />
-      </SettingItem>
-      <SettingItem
-        title="Workbench: Preferred Settings Target"
+      </FormGroup>
+      <FormGroup
+        label="Workbench: Preferred Settings Target"
         description="Controls where a changed setting is written when multiple scopes are available."
-        className="setting-item setting-item-enum"
       >
         <RadioGroup orientation="vertical" value={target} onChange={setTarget}>
           <Radio value="user">User</Radio>
           <Radio value="workspace">Workspace</Radio>
           <Radio value="folder">Folder</Radio>
         </RadioGroup>
-      </SettingItem>
-      <SettingItem
-        title="Chat: System Prompt"
+      </FormGroup>
+      <FormGroup
+        label="Chat: System Prompt"
         description="Provides the base prompt used for prompt-driven editing and review tasks."
-        className="setting-item setting-item-text"
+        fill
       >
         <Textarea
           rows={4}
@@ -96,12 +93,17 @@ function ControlsPreview() {
           onChange={setSystemPrompt}
           placeholder="Enter a system prompt"
         />
-      </SettingItem>
+      </FormGroup>
       <Divider />
-      <SettingItem
-        title="Chat: Command Prefix"
+      <FormGroup
+        label="Chat: Command Prefix"
         description="Separates the main prompt from the optional command prefix used by slash-style actions."
-        className="setting-item setting-item-text"
+        helper={
+          <FormHelper tone="info">
+            Provide the primary alias first, then an optional fallback alias.
+          </FormHelper>
+        }
+        fill
       >
         <div style={{ width: '100%', maxWidth: 420 }}>
           <TextInput
@@ -114,8 +116,8 @@ function ControlsPreview() {
             style={{ width: '100%', maxWidth: 'none' }}
           />
         </div>
-      </SettingItem>
-    </>
+      </FormGroup>
+    </FormContainer>
   );
 }
 
@@ -140,30 +142,32 @@ function LabelPreview() {
           </div>
         </div>
       </div>
-      <SettingItem
-        title="Accessibility: Accessible Form Labels"
-        description="Uses the standalone Label component inside a setting row for additional control-specific context."
-        className="setting-item setting-item-text"
-      >
-        <div
-          style={{
-            width: 'min(420px, 100%)',
-            display: 'grid',
-            gap: '9px',
-          }}
+      <FormContainer>
+        <FormGroup
+          label="Accessibility: Accessible Form Labels"
+          description="Uses the standalone Label component inside a setting row for additional control-specific context."
+          fill
         >
-          <Label
-            htmlFor="preview-command-alias"
-            description="Clicking this text should focus the input below."
+          <div
+            style={{
+              width: 'min(420px, 100%)',
+              display: 'grid',
+              gap: '9px',
+            }}
           >
-            Command Alias
-          </Label>
-          <TextInput
-            id="preview-command-alias"
-            defaultValue="workbench.action.showCommands"
-          />
-        </div>
-      </SettingItem>
+            <Label
+              htmlFor="preview-command-alias"
+              description="Clicking this text should focus the input below."
+            >
+              Command Alias
+            </Label>
+            <TextInput
+              id="preview-command-alias"
+              defaultValue="workbench.action.showCommands"
+            />
+          </div>
+        </FormGroup>
+      </FormContainer>
     </>
   );
 }
@@ -226,22 +230,28 @@ function CollectionPreview() {
   });
 
   return (
-    <>
-      <SettingItem
-        title="Files: Associations"
+    <FormContainer>
+      <FormGroup
+        label="Files: Associations"
         description="Configure glob patterns for associated file types."
-        className="setting-item setting-item-list"
+        helper={
+          <FormHelper tone="info">
+            Double-click an item to edit it, or drag rows to reorder them.
+          </FormHelper>
+        }
+        fill
       >
         <ListEditor
           value={associations}
           onChange={setAssociations}
           itemSchema={{ type: 'string' }}
         />
-      </SettingItem>
-      <SettingItem
-        title="[TypeScript]: Editor Overrides"
+      </FormGroup>
+      <FormGroup
+        label="[TypeScript]: Editor Overrides"
         description="Applies language-specific settings for TypeScript files."
-        className="setting-item setting-item-list"
+        helper="Only schema-defined keys can be added in this editor."
+        fill
       >
         <ObjectEditor
           value={languageOverrides}
@@ -254,8 +264,8 @@ function CollectionPreview() {
             },
           }}
         />
-      </SettingItem>
-    </>
+      </FormGroup>
+    </FormContainer>
   );
 }
 
@@ -284,19 +294,20 @@ function ActionsPreview() {
           <Badge>{syncEnabled ? 'Active' : 'Paused'}</Badge>
         </div>
       </div>
-      <SettingItem
-        title="Settings Sync: Enabled"
-        description="Synchronizes your user settings across devices."
-        modified={syncEnabled}
-        className="setting-item setting-item-bool"
-      >
-        <Checkbox
-          toggle
-          checked={syncEnabled}
-          onChange={setSyncEnabled}
-          label={syncEnabled ? 'On' : 'Off'}
-        />
-      </SettingItem>
+      <FormContainer>
+        <FormGroup
+          label="Settings Sync: Enabled"
+          description="Synchronizes your user settings across devices."
+          modified={syncEnabled}
+        >
+          <Checkbox
+            toggle
+            checked={syncEnabled}
+            onChange={setSyncEnabled}
+            label={syncEnabled ? 'On' : 'Off'}
+          />
+        </FormGroup>
+      </FormContainer>
     </>
   );
 }
@@ -325,36 +336,39 @@ function CollapsiblePreview() {
           <div>README.md</div>
         </div>
       </Collapsible>
-      <SettingItem
-        title="Workbench: Startup Editor"
-        description="Controls which editor is shown at startup."
-        className="setting-item setting-item-list"
-      >
-        <Collapsible
-          title="Advanced startup rules"
-          description="workspace overrides"
-          open={rulesOpen}
-          onOpenChange={setRulesOpen}
+      <FormContainer>
+        <FormGroup
+          label="Workbench: Startup Editor"
+          description="Controls which editor is shown at startup."
+          helper="Expand advanced rules to configure workspace-specific fallbacks."
+          fill
         >
-          <div
-            style={{
-              width: '100%',
-              padding: '10px 8px 12px 22px',
-              display: 'grid',
-              gap: '8px',
-            }}
+          <Collapsible
+            title="Advanced startup rules"
+            description="workspace overrides"
+            open={rulesOpen}
+            onOpenChange={setRulesOpen}
           >
-            <TextInput
-              defaultValue="readme"
-              style={{ width: '100%', maxWidth: 'none' }}
-            />
-            <TextInput
-              defaultValue="welcomePage"
-              style={{ width: '100%', maxWidth: 'none' }}
-            />
-          </div>
-        </Collapsible>
-      </SettingItem>
+            <div
+              style={{
+                width: '100%',
+                padding: '10px 8px 12px 22px',
+                display: 'grid',
+                gap: '8px',
+              }}
+            >
+              <TextInput
+                defaultValue="readme"
+                style={{ width: '100%', maxWidth: 'none' }}
+              />
+              <TextInput
+                defaultValue="welcomePage"
+                style={{ width: '100%', maxWidth: 'none' }}
+              />
+            </div>
+          </Collapsible>
+        </FormGroup>
+      </FormContainer>
     </>
   );
 }
