@@ -1,0 +1,116 @@
+.editor {
+  width: 100%;
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--vscode-editor-background);
+  padding: 1px;
+}
+
+.header,
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 40%) minmax(0, 60%) 116px;
+  align-items: center;
+  min-height: 24px;
+  max-height: 24px;
+  padding: 0 4px;
+}
+
+.header {
+  color: var(--vscode-foreground);
+  border-bottom: 1px solid var(--vscode-panel-border);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.row {
+  position: relative;
+  border-top: 1px solid var(--vscode-panel-border);
+}
+
+.row:first-of-type {
+  border-top: 0;
+}
+
+.row:hover {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.editing {
+}
+
+.cell {
+  min-width: 0;
+  min-height: 24px;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  display: inline-flex;
+  justify-self: end;
+  gap: 2px;
+  transition: opacity 120ms ease;
+}
+
+.row:not(.editing):not(:hover):not(:focus-within) .actions {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.inputControl {
+  width: 100%;
+  min-width: 0;
+}
+
+.actionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 2px 6px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.actionIcon:hover {
+  background: var(--vscode-list-hoverBackground);
+}
+
+.footer {
+  padding-top: 4px;
+  padding-right: 4px;
+}
+
+.addButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  min-height: 0;
+  padding: 4px 8px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 4px;
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: 12px;
+  line-height: 16px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  background: var(
+    --vscode-button-hoverBackground,
+    var(--vscode-button-background)
+  );
+}
