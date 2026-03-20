@@ -1,0 +1,33 @@
+.root {
+  min-width: 0;
+}
+
+.title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-bottom: 2px;
+}
+
+.label {
+  margin-right: 7px;
+}
+
+.label,
+.category {
+  font-weight: 600;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.category {
+  opacity: 0.9;
+}
+
+.description {
+  margin-top: -1px;
+  color: var(--vscode-foreground);
+  opacity: 0.9;
+  user-select: text;
+  -webkit-user-select: text;
+}

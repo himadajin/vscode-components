@@ -2,10 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
 import { Collapsible } from '../Collapsible';
+import { Label } from '../Label';
+import { Divider } from '../Divider';
 import { FormContainer } from '../FormContainer';
 import { FormGroup } from '../FormGroup';
 import { FormHelper } from '../FormHelper';
-import { Divider } from '../Divider';
 import { ListEditor } from '../ListEditor';
 import { Radio } from '../Radio';
 import { RadioGroup } from '../RadioGroup';
@@ -95,6 +96,49 @@ export const WithListEditor: Story = {
       />
     );
   },
+};
+
+export const WithLongLabelContent: Story = {
+  args: {
+    title:
+      'Workbench: Settings Editor Subtitle Length Used To Verify Ellipsis And Wrapping Behavior',
+    description:
+      'Displays a long explanation so the description line can wrap naturally while the title remains visually aligned with VS Code settings rows.',
+    category: 'Workbench > Settings Editor',
+  },
+};
+
+export const NestedLabelDemo: Story = {
+  args: {
+    title: 'Accessibility: Accessible Form Labels',
+    description:
+      'Demonstrates the standalone Label component when you need an additional control-specific label inside a setting row.',
+  },
+  render: (args) => (
+    <SettingItem
+      {...args}
+      children={
+        <div
+          style={{
+            width: 'min(420px, 100%)',
+            display: 'grid',
+            gap: '9px',
+          }}
+        >
+          <Label
+            htmlFor="settings-label-demo"
+            description="Clicked label text should focus the corresponding input."
+          >
+            Command Alias
+          </Label>
+          <TextInput
+            id="settings-label-demo"
+            defaultValue="workbench.action.showCommands"
+          />
+        </div>
+      }
+    />
+  ),
 };
 
 export const WithCollapsible: Story = {
