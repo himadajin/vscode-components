@@ -98,6 +98,22 @@ code {
   display: flex;
 }
 
+.preview-inline-setting {
+  position: relative;
+  padding: 12px 14px 18px;
+  white-space: normal;
+  outline-offset: -1px;
+}
+
+.preview-inline-setting:hover {
+  background: var(--vscode-settings-rowHoverBackground);
+}
+
+.preview-inline-setting:focus-within {
+  background: var(--vscode-settings-focusedRowBackground);
+  outline: 1px solid var(--vscode-settings-focusedRowBorder);
+}
+
 .preview-card .setting-item.setting-item-number .setting-item-value > * {
   min-width: 200px;
 }

@@ -122,20 +122,22 @@ function ControlsPreview() {
 function LabelPreview() {
   return (
     <>
-      <div style={{ width: 'min(420px, 100%)', marginBottom: 18 }}>
-        <Label
-          category="Editor > Font"
-          htmlFor="preview-label-font-size"
-          description="Controls the font size in pixels."
-        >
-          Editor: Font Size
-        </Label>
-        <div style={{ marginTop: 9 }}>
-          <TextInput
-            id="preview-label-font-size"
-            defaultValue={14}
-            type="number"
-          />
+      <div className="preview-inline-setting">
+        <div style={{ width: 'min(420px, 100%)', marginBottom: 18 }}>
+          <Label
+            category="Editor > Font"
+            htmlFor="preview-label-font-size"
+            description="Controls the font size in pixels."
+          >
+            Editor: Font Size
+          </Label>
+          <div style={{ marginTop: 9 }}>
+            <TextInput
+              id="preview-label-font-size"
+              defaultValue={14}
+              type="number"
+            />
+          </div>
         </div>
       </div>
       <SettingItem
