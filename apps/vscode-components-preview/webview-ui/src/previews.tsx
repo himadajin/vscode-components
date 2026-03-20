@@ -3,6 +3,7 @@ import {
   Badge,
   Button,
   Checkbox,
+  Icon,
   ListEditor,
   ObjectEditor,
   Select,
@@ -126,6 +127,7 @@ function ActionsPreview() {
           </Button>
         </div>
         <div className="preview-toolbar-group">
+          <Icon name="sync" icon="sync~spin" aria-hidden="true" />
           <Badge variant="counter">{launchCount}</Badge>
           <Badge>{syncEnabled ? 'Active' : 'Paused'}</Badge>
         </div>
