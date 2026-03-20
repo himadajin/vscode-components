@@ -1,6 +1,7 @@
 import type { Preview } from '@storybook/react';
 import { createElement } from 'react';
 import '@vscode-elements/elements';
+import '@vscode/codicons/dist/codicon.css';
 import '../src/theme/defaults.css';
 import '../src/theme/storybook.css';
 

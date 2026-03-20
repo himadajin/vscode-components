@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { ItemSchema } from '../../types/json-schema';
+import { Icon } from '../Icon';
 import {
   handleEditorKeyDown,
   SchemaValueInput,
@@ -61,19 +62,19 @@ function ListEditorEditingContent<T>({
       <div className={styles.actions}>
         <button
           type="button"
-          className={styles.actionIcon}
+          className={styles.textAction}
           onClick={() => onCommit(draft as T)}
           aria-label="Save item"
         >
-          ✓
+          OK
         </button>
         <button
           type="button"
-          className={styles.actionIcon}
+          className={styles.textActionSecondary}
           onClick={onCancel}
           aria-label="Cancel edit"
         >
-          ×
+          Cancel
         </button>
       </div>
     </>
@@ -103,7 +104,7 @@ function ListEditorReadonlyContent({
           onClick={onStartEdit}
           aria-label="Edit item"
         >
-          ✎
+          <Icon name="edit" />
         </button>
         <button
           type="button"
@@ -111,7 +112,7 @@ function ListEditorReadonlyContent({
           onClick={onRemove}
           aria-label="Remove item"
         >
-          ×
+          <Icon name="trash" />
         </button>
       </div>
     </>

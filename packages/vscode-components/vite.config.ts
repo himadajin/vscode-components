@@ -3,12 +3,13 @@ import path from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-function copyThemeAsset() {
+function copyThemeAssets() {
   return {
-    name: 'copy-theme-asset',
+    name: 'copy-theme-assets',
     async writeBundle() {
       const outDir = path.resolve(process.cwd(), 'dist/theme');
       await mkdir(outDir, { recursive: true });
+
       await copyFile(
         path.resolve(process.cwd(), 'src/theme/defaults.css'),
         path.join(outDir, 'defaults.css'),
@@ -18,7 +19,7 @@ function copyThemeAsset() {
 }
 
 export default defineConfig({
-  plugins: [react(), copyThemeAsset()],
+  plugins: [react(), copyThemeAssets()],
   build: {
     emptyOutDir: false,
     lib: {

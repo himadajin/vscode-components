@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { ItemSchema, ObjectSettingSchema } from '../../types/json-schema';
+import { Icon } from '../Icon';
 import { Select } from '../Select';
 import { TextInput } from '../TextInput';
 import {
@@ -118,19 +119,19 @@ function ObjectEditorEditingContent<T>({
       <div className={styles.actions}>
         <button
           type="button"
-          className={styles.actionIcon}
+          className={styles.textAction}
           onClick={commitDraft}
           aria-label="Save item"
         >
-          ✓
+          OK
         </button>
         <button
           type="button"
-          className={styles.actionIcon}
+          className={styles.textActionSecondary}
           onClick={onCancel}
           aria-label="Cancel edit"
         >
-          ×
+          Cancel
         </button>
       </div>
     </>
@@ -165,7 +166,7 @@ function ObjectEditorReadonlyContent<T>({
           onClick={onStartEdit}
           aria-label="Edit item"
         >
-          ✎
+          <Icon name="edit" />
         </button>
         {onReset && defaultValue !== undefined && value !== defaultValue ? (
           <button
@@ -174,7 +175,7 @@ function ObjectEditorReadonlyContent<T>({
             onClick={onReset}
             aria-label="Reset item"
           >
-            Reset
+            <Icon name="discard" />
           </button>
         ) : null}
         <button
@@ -183,7 +184,7 @@ function ObjectEditorReadonlyContent<T>({
           onClick={onRemove}
           aria-label="Remove item"
         >
-          ×
+          <Icon name="trash" />
         </button>
       </div>
     </>

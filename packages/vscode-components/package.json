@@ -20,7 +20,8 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@vscode-elements/elements": "^1.13.0"
+    "@vscode-elements/elements": "^1.13.0",
+    "@vscode/codicons": "^0.0.45"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "^8.6.14",
