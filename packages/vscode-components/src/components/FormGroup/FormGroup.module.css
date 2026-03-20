@@ -1,0 +1,61 @@
+.root {
+  position: relative;
+  display: block;
+  padding: 12px 14px 18px;
+  white-space: normal;
+  outline-offset: -1px;
+}
+
+.root:focus-within {
+  background: var(--vscode-settings-focusedRowBackground);
+}
+
+.modified::before {
+  display: block;
+  content: ' ';
+  position: absolute;
+  width: 6px;
+  border-left: 2px solid var(--vscode-settings-modifiedItemIndicator);
+  left: 5px;
+  top: 15px;
+  bottom: 18px;
+}
+
+.header {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-bottom: 2px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.label {
+  font-weight: 600;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.description {
+  margin-top: -1px;
+  color: var(--vscode-foreground);
+  opacity: 0.9;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.control {
+  margin-top: 9px;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+}
+
+.helper {
+  margin-top: 6px;
+}
+
+.fill > * {
+  width: 100%;
+  max-width: none;
+}
