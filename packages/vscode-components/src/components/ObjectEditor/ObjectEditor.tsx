@@ -27,6 +27,32 @@ function defaultEntry<T>(schema?: ObjectSettingSchema): [string, T] {
   return [firstKey, fallback as T];
 }
 
+function getUniqueKey<T>(
+  value: Record<string, T>,
+  schema: ObjectSettingSchema | undefined,
+  preferredKey: string,
+): string {
+  if (preferredKey && value[preferredKey] === undefined) {
+    return preferredKey;
+  }
+
+  const schemaKeys = Object.keys(schema?.properties ?? {});
+  const nextSchemaKey = schemaKeys.find((key) => value[key] === undefined);
+  if (nextSchemaKey) {
+    return nextSchemaKey;
+  }
+
+  let index = Object.keys(value).length + 1;
+  let fallbackKey = `key${index}`;
+
+  while (value[fallbackKey] !== undefined) {
+    index += 1;
+    fallbackKey = `key${index}`;
+  }
+
+  return fallbackKey;
+}
+
 export function ObjectEditor<T = string>({
   value,
   schema,
@@ -35,11 +61,11 @@ export function ObjectEditor<T = string>({
   defaultValue,
 }: ObjectEditorProps<T>) {
   const [editingKey, setEditingKey] = useState<string | null>(null);
-  const entries = Object.entries(value) as Array<[string, T]>;
+  const entries = Object.entries(value);
 
   const addItem = () => {
     const [key, nextValue] = defaultEntry<T>(schema);
-    const resolvedKey = key || `key${entries.length + 1}`;
+    const resolvedKey = getUniqueKey(value, schema, key);
     const next = { ...value, [resolvedKey]: nextValue };
     onChange(next);
     onChangeEvent?.({
@@ -52,7 +78,7 @@ export function ObjectEditor<T = string>({
   };
 
   return (
-    <>
+    <div className={styles.root}>
       {entries.length > 0 ? (
         <div className={styles.editor}>
           <div className={styles.header}>
@@ -124,6 +150,6 @@ export function ObjectEditor<T = string>({
           Add Item
         </button>
       </div>
-    </>
+    </div>
   );
 }

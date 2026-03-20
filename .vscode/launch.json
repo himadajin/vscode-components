@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run VSCode Components Preview Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}/apps/vscode-components-preview"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/apps/vscode-components-preview/dist/**/*.js"
+      ],
+      "preLaunchTask": "build: preview extension"
+    }
+  ]
+}

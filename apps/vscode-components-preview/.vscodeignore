@@ -1,0 +1,8 @@
+src/**
+webview-ui/src/**
+*.ts
+*.tsx
+tsconfig.json
+vite.webview.config.ts
+README.md
+node_modules/.cache/**

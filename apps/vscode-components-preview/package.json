@@ -1,0 +1,48 @@
+{
+  "name": "vscode-components-preview",
+  "version": "0.1.0",
+  "private": true,
+  "displayName": "VSCode Components Preview",
+  "description": "Preview vscode-components inside a VS Code webview.",
+  "main": "./dist/extension.js",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "activationEvents": [],
+  "categories": [
+    "Other"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "vscodeComponentsPreview.open",
+        "title": "VSCode Components Preview: Open"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "npm run build:webview && npm run build:extension",
+    "build:extension": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js --sourcemap",
+    "build:webview": "vite build --config vite.webview.config.ts",
+    "dev": "concurrently -k \"npm:dev:webview\" \"npm:dev:extension\"",
+    "dev:extension": "esbuild src/extension.ts --bundle --platform=node --format=cjs --external:vscode --outfile=dist/extension.js --sourcemap --watch",
+    "dev:webview": "vite build --watch --config vite.webview.config.ts",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vscode-components": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/vscode": "^1.90.0",
+    "@vitejs/plugin-react": "^4.4.1",
+    "concurrently": "^9.2.1",
+    "esbuild": "^0.25.9",
+    "typescript": "^5.8.2",
+    "vite": "^6.2.2"
+  }
+}

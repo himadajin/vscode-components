@@ -18,5 +18,5 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", ".storybook"]
+  "include": ["src", ".storybook/**/*.ts", "vite.config.ts"]
 }
