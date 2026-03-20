@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDragReorder } from '../../hooks/useDragReorder';
 import type { ItemSchema, ListChangeEvent } from '../../types/json-schema';
+import { getDefaultItemValue } from '../shared/collectionEditor';
 import styles from './ListEditor.module.css';
 import { ListEditorRow } from './ListEditorRow';
 
@@ -13,20 +14,65 @@ export interface ListEditorProps<T = string> {
   addPlaceholder?: string;
 }
 
-function getDefaultValue<T>(schema?: ItemSchema): T {
-  if (schema?.default !== undefined) {
-    return schema.default as T;
+interface ListEditorRowsProps<T> {
+  value: T[];
+  itemSchema?: ItemSchema;
+  editingIndex: number | null;
+  dropIndex: number | null;
+  getDragProps: ReturnType<typeof useDragReorder<T>>['getDragProps'];
+  onStartEdit: (index: number) => void;
+  onCommit: (index: number, nextItem: T) => void;
+  onCancel: () => void;
+  onRemove: (index: number, item: T) => void;
+}
+
+function ListEditorRows<T>({
+  value,
+  itemSchema,
+  editingIndex,
+  dropIndex,
+  getDragProps,
+  onStartEdit,
+  onCommit,
+  onCancel,
+  onRemove,
+}: ListEditorRowsProps<T>) {
+  if (value.length === 0) {
+    return null;
   }
-  if (schema?.type === 'boolean') {
-    return false as T;
-  }
-  if (schema?.type === 'number' || schema?.type === 'integer') {
-    return 0 as T;
-  }
-  if (schema?.type === 'string' && schema.enum?.[0]) {
-    return schema.enum[0] as T;
-  }
-  return '' as T;
+
+  return (
+    <div className={styles.editor}>
+      {value.map((item, index) => (
+        <ListEditorRow
+          key={`${index}-${String(item)}`}
+          value={item}
+          itemSchema={itemSchema}
+          editing={editingIndex === index}
+          onStartEdit={() => onStartEdit(index)}
+          onCommit={(nextItem) => onCommit(index, nextItem)}
+          onCancel={onCancel}
+          onRemove={() => onRemove(index, item)}
+          dragProps={getDragProps(index)}
+          dropTarget={dropIndex === index}
+        />
+      ))}
+    </div>
+  );
+}
+
+interface ListEditorFooterProps {
+  onAddItem: () => void;
+}
+
+function ListEditorFooter({ onAddItem }: ListEditorFooterProps) {
+  return (
+    <div className={styles.footer}>
+      <button type="button" className={styles.addButton} onClick={onAddItem}>
+        Add Item
+      </button>
+    </div>
+  );
 }
 
 export function ListEditor<T = string>({
@@ -52,8 +98,39 @@ export function ListEditor<T = string>({
     reorderable,
   );
 
+  const handleStartEdit = (index: number) => {
+    setEditingIndex(index);
+  };
+
+  const handleCommit = (index: number, nextItem: T) => {
+    const next = [...value];
+    next[index] = nextItem;
+    onChange(next);
+    onChangeEvent?.({
+      type: 'change',
+      value: next,
+      index,
+      item: nextItem,
+    });
+    setEditingIndex(null);
+  };
+
+  const handleCancel = () => {
+    setEditingIndex(null);
+  };
+
+  const handleRemove = (index: number, item: T) => {
+    const next = value.filter((_, currentIndex) => currentIndex !== index);
+    onChange(next);
+    onChangeEvent?.({ type: 'remove', value: next, index, item });
+    setEditingIndex((current) => (current === index ? null : current));
+  };
+
   const addItem = () => {
-    const next = [...value, getDefaultValue<T>(itemSchema)];
+    const next = [
+      ...value,
+      getDefaultItemValue<T>(itemSchema, { preferEnum: true }),
+    ];
     onChange(next);
     onChangeEvent?.({
       type: 'add',
@@ -66,49 +143,18 @@ export function ListEditor<T = string>({
 
   return (
     <div className={styles.root}>
-      {value.length > 0 ? (
-        <div className={styles.editor}>
-          {value.map((item, index) => (
-            <ListEditorRow
-              key={`${index}-${String(item)}`}
-              value={item}
-              itemSchema={itemSchema}
-              editing={editingIndex === index}
-              onStartEdit={() => setEditingIndex(index)}
-              onCommit={(nextItem) => {
-                const next = [...value];
-                next[index] = nextItem;
-                onChange(next);
-                onChangeEvent?.({
-                  type: 'change',
-                  value: next,
-                  index,
-                  item: nextItem,
-                });
-                setEditingIndex(null);
-              }}
-              onCancel={() => setEditingIndex(null)}
-              onRemove={() => {
-                const next = value.filter(
-                  (_, currentIndex) => currentIndex !== index,
-                );
-                onChange(next);
-                onChangeEvent?.({ type: 'remove', value: next, index, item });
-                setEditingIndex((current) =>
-                  current === index ? null : current,
-                );
-              }}
-              dragProps={getDragProps(index)}
-              dropTarget={dropIndex === index}
-            />
-          ))}
-        </div>
-      ) : null}
-      <div className={styles.footer}>
-        <button type="button" className={styles.addButton} onClick={addItem}>
-          Add Item
-        </button>
-      </div>
+      <ListEditorRows
+        value={value}
+        itemSchema={itemSchema}
+        editingIndex={editingIndex}
+        dropIndex={dropIndex}
+        getDragProps={getDragProps}
+        onStartEdit={handleStartEdit}
+        onCommit={handleCommit}
+        onCancel={handleCancel}
+        onRemove={handleRemove}
+      />
+      <ListEditorFooter onAddItem={addItem} />
     </div>
   );
 }

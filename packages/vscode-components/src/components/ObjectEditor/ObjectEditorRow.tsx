@@ -1,9 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { ItemSchema, ObjectSettingSchema } from '../../types/json-schema';
-import { Checkbox } from '../Checkbox';
 import { Select } from '../Select';
 import { TextInput } from '../TextInput';
-import { isComposingKeyboardEvent } from '../../hooks/useImeGuard';
+import {
+  getDefaultItemValue,
+  getObjectValueSchema,
+  handleEditorKeyDown,
+  SchemaValueInput,
+} from '../shared/collectionEditor';
 import styles from './ObjectEditor.module.css';
 
 interface ObjectEditorRowProps<T> {
@@ -19,77 +23,175 @@ interface ObjectEditorRowProps<T> {
   onReset?: () => void;
 }
 
-function valueSchema(
-  schema: ObjectSettingSchema | undefined,
-  key: string,
-): ItemSchema | undefined {
-  if (!schema) {
-    return undefined;
-  }
-  return (
-    schema.properties?.[key] ??
-    (typeof schema.additionalProperties === 'object'
-      ? schema.additionalProperties
-      : undefined)
-  );
+interface ObjectEditorKeyInputProps {
+  draftKey: string;
+  schema?: ObjectSettingSchema;
+  onDraftKeyChange: (draftKey: string) => void;
+  onDraftValueChange: (draftValue: unknown) => void;
 }
 
-function defaultForSchema<T>(schema: ItemSchema | undefined): T {
-  if (schema?.default !== undefined) {
-    return schema.default as T;
-  }
-  if (schema?.type === 'boolean') {
-    return false as T;
-  }
-  if (schema?.type === 'number' || schema?.type === 'integer') {
-    return 0 as T;
-  }
-  return '' as T;
-}
+function ObjectEditorKeyInput({
+  draftKey,
+  schema,
+  onDraftKeyChange,
+  onDraftValueChange,
+}: ObjectEditorKeyInputProps) {
+  const keyOptions = Object.keys(schema?.properties ?? {});
 
-function renderValueEditor(
-  schema: ItemSchema | undefined,
-  value: unknown,
-  onChange: (next: unknown) => void,
-) {
-  if (schema?.type === 'boolean') {
-    return (
-      <Checkbox
-        checked={Boolean(value)}
-        onChange={onChange as (value: boolean) => void}
-      />
-    );
-  }
-  if (schema?.type === 'string' && schema.enum?.length) {
+  if (keyOptions.length > 0) {
     return (
       <Select
         className={styles.inputControl}
-        value={String(value ?? '')}
-        enum={schema.enum}
-        enumDescriptions={schema.enumDescriptions}
-        enumItemLabels={schema.enumItemLabels}
-        onChange={onChange as (value: string) => void}
+        value={draftKey}
+        enum={keyOptions}
+        onChange={(nextKey) => {
+          onDraftKeyChange(nextKey);
+          if (schema?.properties?.[nextKey]) {
+            onDraftValueChange(getDefaultItemValue(schema.properties[nextKey]));
+          }
+        }}
       />
     );
   }
+
   return (
     <TextInput
       className={styles.inputControl}
-      value={value as string | number | undefined}
-      type={
-        schema?.type === 'number' || schema?.type === 'integer'
-          ? schema.type
-          : 'string'
-      }
-      onChange={(next) => {
-        if (schema?.type === 'number' || schema?.type === 'integer') {
-          onChange(next === '' ? '' : Number(next));
-          return;
-        }
-        onChange(next);
-      }}
+      value={draftKey}
+      onChange={onDraftKeyChange}
     />
   );
+}
+
+interface ObjectEditorEditingContentProps<T> {
+  draftKey: string;
+  draftValue: unknown;
+  schema?: ObjectSettingSchema;
+  currentSchema?: ItemSchema;
+  onDraftKeyChange: (draftKey: string) => void;
+  onDraftValueChange: (draftValue: unknown) => void;
+  onCommit: (nextKey: string, nextValue: T) => void;
+  onCancel: () => void;
+}
+
+function ObjectEditorEditingContent<T>({
+  draftKey,
+  draftValue,
+  schema,
+  currentSchema,
+  onDraftKeyChange,
+  onDraftValueChange,
+  onCommit,
+  onCancel,
+}: ObjectEditorEditingContentProps<T>) {
+  const commitDraft = () => {
+    onCommit(draftKey, draftValue as T);
+  };
+
+  return (
+    <>
+      <div
+        onKeyDown={(event) => {
+          handleEditorKeyDown(event, commitDraft, onCancel);
+        }}
+      >
+        <ObjectEditorKeyInput
+          draftKey={draftKey}
+          schema={schema}
+          onDraftKeyChange={onDraftKeyChange}
+          onDraftValueChange={onDraftValueChange}
+        />
+      </div>
+      <div
+        onKeyDown={(event) => {
+          handleEditorKeyDown(event, commitDraft, onCancel);
+        }}
+      >
+        <SchemaValueInput
+          schema={currentSchema}
+          value={draftValue}
+          onChange={onDraftValueChange}
+          selectClassName={styles.inputControl}
+          textInputClassName={styles.inputControl}
+        />
+      </div>
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={commitDraft}
+          aria-label="Save item"
+        >
+          ✓
+        </button>
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={onCancel}
+          aria-label="Cancel edit"
+        >
+          ×
+        </button>
+      </div>
+    </>
+  );
+}
+
+interface ObjectEditorReadonlyContentProps<T> {
+  entryKey: string;
+  value: T;
+  defaultValue?: T;
+  onStartEdit: () => void;
+  onRemove: () => void;
+  onReset?: () => void;
+}
+
+function ObjectEditorReadonlyContent<T>({
+  entryKey,
+  value,
+  defaultValue,
+  onStartEdit,
+  onRemove,
+  onReset,
+}: ObjectEditorReadonlyContentProps<T>) {
+  return (
+    <>
+      <div className={styles.cell}>{entryKey}</div>
+      <div className={styles.cell}>{String(value)}</div>
+      <div className={styles.actions}>
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={onStartEdit}
+          aria-label="Edit item"
+        >
+          ✎
+        </button>
+        {onReset && defaultValue !== undefined && value !== defaultValue ? (
+          <button
+            type="button"
+            className={styles.actionIcon}
+            onClick={onReset}
+            aria-label="Reset item"
+          >
+            Reset
+          </button>
+        ) : null}
+        <button
+          type="button"
+          className={styles.actionIcon}
+          onClick={onRemove}
+          aria-label="Remove item"
+        >
+          ×
+        </button>
+      </div>
+    </>
+  );
+}
+
+function getRowClassName(editing: boolean) {
+  return [styles.row, editing ? styles.editing : ''].filter(Boolean).join(' ');
 }
 
 export function ObjectEditorRow<T>({
@@ -112,126 +214,30 @@ export function ObjectEditorRow<T>({
     setDraftValue(value);
   }, [entryKey, value]);
 
-  const keyOptions = useMemo(
-    () => Object.keys(schema?.properties ?? {}),
-    [schema?.properties],
-  );
-  const currentSchema = valueSchema(schema, draftKey);
+  const currentSchema = getObjectValueSchema(schema, draftKey);
 
   return (
-    <div
-      className={[styles.row, editing ? styles.editing : '']
-        .filter(Boolean)
-        .join(' ')}
-    >
+    <div className={getRowClassName(editing)}>
       {editing ? (
-        <>
-          <div
-            onKeyDown={(event) => {
-              if (isComposingKeyboardEvent(event)) {
-                return;
-              }
-              if (event.key === 'Enter') {
-                onCommit(draftKey, draftValue as T);
-              }
-              if (event.key === 'Escape') {
-                event.preventDefault();
-                event.stopPropagation();
-                onCancel();
-              }
-            }}
-          >
-            {keyOptions.length > 0 ? (
-              <Select
-                className={styles.inputControl}
-                value={draftKey}
-                enum={keyOptions}
-                onChange={(nextKey) => {
-                  setDraftKey(nextKey);
-                  if (schema?.properties?.[nextKey]) {
-                    setDraftValue(
-                      defaultForSchema<T>(schema.properties[nextKey]),
-                    );
-                  }
-                }}
-              />
-            ) : (
-              <TextInput
-                className={styles.inputControl}
-                value={draftKey}
-                onChange={setDraftKey}
-              />
-            )}
-          </div>
-          <div
-            onKeyDown={(event) => {
-              if (isComposingKeyboardEvent(event)) {
-                return;
-              }
-              if (event.key === 'Enter') {
-                onCommit(draftKey, draftValue as T);
-              }
-              if (event.key === 'Escape') {
-                event.preventDefault();
-                event.stopPropagation();
-                onCancel();
-              }
-            }}
-          >
-            {renderValueEditor(currentSchema, draftValue, setDraftValue)}
-          </div>
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={() => onCommit(draftKey, draftValue as T)}
-              aria-label="Save item"
-            >
-              ✓
-            </button>
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={onCancel}
-              aria-label="Cancel edit"
-            >
-              ×
-            </button>
-          </div>
-        </>
+        <ObjectEditorEditingContent
+          draftKey={draftKey}
+          draftValue={draftValue}
+          schema={schema}
+          currentSchema={currentSchema}
+          onDraftKeyChange={setDraftKey}
+          onDraftValueChange={setDraftValue}
+          onCommit={onCommit}
+          onCancel={onCancel}
+        />
       ) : (
-        <>
-          <div className={styles.cell}>{entryKey}</div>
-          <div className={styles.cell}>{String(value)}</div>
-          <div className={styles.actions}>
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={onStartEdit}
-              aria-label="Edit item"
-            >
-              ✎
-            </button>
-            {onReset && defaultValue !== undefined && value !== defaultValue ? (
-              <button
-                type="button"
-                className={styles.actionIcon}
-                onClick={onReset}
-                aria-label="Reset item"
-              >
-                Reset
-              </button>
-            ) : null}
-            <button
-              type="button"
-              className={styles.actionIcon}
-              onClick={onRemove}
-              aria-label="Remove item"
-            >
-              ×
-            </button>
-          </div>
-        </>
+        <ObjectEditorReadonlyContent
+          entryKey={entryKey}
+          value={value}
+          defaultValue={defaultValue}
+          onStartEdit={onStartEdit}
+          onRemove={onRemove}
+          onReset={onReset}
+        />
       )}
     </div>
   );

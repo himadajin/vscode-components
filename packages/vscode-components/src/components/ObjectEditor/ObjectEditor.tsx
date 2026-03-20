@@ -3,6 +3,10 @@ import type {
   ObjectChangeEvent,
   ObjectSettingSchema,
 } from '../../types/json-schema';
+import {
+  getDefaultObjectEntry,
+  getUniqueObjectKey,
+} from '../shared/collectionEditor';
 import styles from './ObjectEditor.module.css';
 import { ObjectEditorRow } from './ObjectEditorRow';
 
@@ -14,43 +18,91 @@ export interface ObjectEditorProps<T = string> {
   defaultValue?: Record<string, T>;
 }
 
-function defaultEntry<T>(schema?: ObjectSettingSchema): [string, T] {
-  const firstKey = Object.keys(schema?.properties ?? {})[0] ?? '';
-  const propSchema = firstKey ? schema?.properties?.[firstKey] : undefined;
-  const fallback =
-    propSchema?.default ??
-    (propSchema?.type === 'boolean'
-      ? false
-      : propSchema?.type === 'number' || propSchema?.type === 'integer'
-        ? 0
-        : '');
-  return [firstKey, fallback as T];
+interface ObjectEditorHeaderProps {
+  visible: boolean;
 }
 
-function getUniqueKey<T>(
-  value: Record<string, T>,
-  schema: ObjectSettingSchema | undefined,
-  preferredKey: string,
-): string {
-  if (preferredKey && value[preferredKey] === undefined) {
-    return preferredKey;
+function ObjectEditorHeader({ visible }: ObjectEditorHeaderProps) {
+  if (!visible) {
+    return null;
   }
 
-  const schemaKeys = Object.keys(schema?.properties ?? {});
-  const nextSchemaKey = schemaKeys.find((key) => value[key] === undefined);
-  if (nextSchemaKey) {
-    return nextSchemaKey;
+  return (
+    <div className={styles.header}>
+      <div>Item</div>
+      <div>Value</div>
+      <div />
+    </div>
+  );
+}
+
+interface ObjectEditorRowsProps<T> {
+  entries: [string, T][];
+  schema?: ObjectSettingSchema;
+  defaultValue?: Record<string, T>;
+  editingKey: string | null;
+  onStartEdit: (entryKey: string) => void;
+  onCommit: (entryKey: string, nextKey: string, nextValue: T) => void;
+  onCancel: () => void;
+  onRemove: (entryKey: string, entryValue: T) => void;
+  onReset: (entryKey: string) => void;
+}
+
+function ObjectEditorRows<T>({
+  entries,
+  schema,
+  defaultValue,
+  editingKey,
+  onStartEdit,
+  onCommit,
+  onCancel,
+  onRemove,
+  onReset,
+}: ObjectEditorRowsProps<T>) {
+  if (entries.length === 0) {
+    return null;
   }
 
-  let index = Object.keys(value).length + 1;
-  let fallbackKey = `key${index}`;
+  return (
+    <div className={styles.editor}>
+      <ObjectEditorHeader visible={entries.length > 0} />
+      {entries.map(([entryKey, entryValue]) => (
+        <ObjectEditorRow
+          key={entryKey}
+          entryKey={entryKey}
+          value={entryValue}
+          schema={schema}
+          defaultValue={defaultValue?.[entryKey]}
+          editing={editingKey === entryKey}
+          onStartEdit={() => onStartEdit(entryKey)}
+          onCommit={(nextKey, nextValue) =>
+            onCommit(entryKey, nextKey, nextValue)
+          }
+          onCancel={onCancel}
+          onRemove={() => onRemove(entryKey, entryValue)}
+          onReset={
+            defaultValue?.[entryKey] !== undefined
+              ? () => onReset(entryKey)
+              : undefined
+          }
+        />
+      ))}
+    </div>
+  );
+}
 
-  while (value[fallbackKey] !== undefined) {
-    index += 1;
-    fallbackKey = `key${index}`;
-  }
+interface ObjectEditorFooterProps {
+  onAddItem: () => void;
+}
 
-  return fallbackKey;
+function ObjectEditorFooter({ onAddItem }: ObjectEditorFooterProps) {
+  return (
+    <div className={styles.footer}>
+      <button type="button" className={styles.addButton} onClick={onAddItem}>
+        Add Item
+      </button>
+    </div>
+  );
 }
 
 export function ObjectEditor<T = string>({
@@ -63,9 +115,65 @@ export function ObjectEditor<T = string>({
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const entries = Object.entries(value);
 
+  const handleStartEdit = (entryKey: string) => {
+    setEditingKey(entryKey);
+  };
+
+  const handleCommit = (entryKey: string, nextKey: string, nextValue: T) => {
+    const next = { ...value };
+    if (nextKey !== entryKey) {
+      delete next[entryKey];
+    }
+    next[nextKey] = nextValue;
+    onChange(next);
+    onChangeEvent?.({
+      type: 'change',
+      value: next,
+      key: nextKey,
+      previousKey: nextKey !== entryKey ? entryKey : undefined,
+      item: nextValue,
+    });
+    setEditingKey(null);
+  };
+
+  const handleCancel = () => {
+    setEditingKey(null);
+  };
+
+  const handleRemove = (entryKey: string, entryValue: T) => {
+    const next = { ...value };
+    delete next[entryKey];
+    onChange(next);
+    onChangeEvent?.({
+      type: 'remove',
+      value: next,
+      key: entryKey,
+      item: entryValue,
+    });
+    setEditingKey(null);
+  };
+
+  const handleReset = (entryKey: string) => {
+    if (defaultValue?.[entryKey] === undefined) {
+      return;
+    }
+
+    const next = {
+      ...value,
+      [entryKey]: defaultValue[entryKey],
+    };
+    onChange(next);
+    onChangeEvent?.({
+      type: 'reset',
+      value: next,
+      key: entryKey,
+      item: defaultValue[entryKey],
+    });
+  };
+
   const addItem = () => {
-    const [key, nextValue] = defaultEntry<T>(schema);
-    const resolvedKey = getUniqueKey(value, schema, key);
+    const [key, nextValue] = getDefaultObjectEntry<T>(schema);
+    const resolvedKey = getUniqueObjectKey(value, schema, key);
     const next = { ...value, [resolvedKey]: nextValue };
     onChange(next);
     onChangeEvent?.({
@@ -79,77 +187,18 @@ export function ObjectEditor<T = string>({
 
   return (
     <div className={styles.root}>
-      {entries.length > 0 ? (
-        <div className={styles.editor}>
-          <div className={styles.header}>
-            <div>Item</div>
-            <div>Value</div>
-            <div />
-          </div>
-          {entries.map(([entryKey, entryValue]) => (
-            <ObjectEditorRow
-              key={entryKey}
-              entryKey={entryKey}
-              value={entryValue}
-              schema={schema}
-              defaultValue={defaultValue?.[entryKey]}
-              editing={editingKey === entryKey}
-              onStartEdit={() => setEditingKey(entryKey)}
-              onCommit={(nextKey, nextValue) => {
-                const next = { ...value };
-                if (nextKey !== entryKey) {
-                  delete next[entryKey];
-                }
-                next[nextKey] = nextValue;
-                onChange(next);
-                onChangeEvent?.({
-                  type: 'change',
-                  value: next,
-                  key: nextKey,
-                  previousKey: nextKey !== entryKey ? entryKey : undefined,
-                  item: nextValue,
-                });
-                setEditingKey(null);
-              }}
-              onCancel={() => setEditingKey(null)}
-              onRemove={() => {
-                const next = { ...value };
-                delete next[entryKey];
-                onChange(next);
-                onChangeEvent?.({
-                  type: 'remove',
-                  value: next,
-                  key: entryKey,
-                  item: entryValue,
-                });
-                setEditingKey(null);
-              }}
-              onReset={
-                defaultValue?.[entryKey] !== undefined
-                  ? () => {
-                      const next = {
-                        ...value,
-                        [entryKey]: defaultValue[entryKey],
-                      };
-                      onChange(next);
-                      onChangeEvent?.({
-                        type: 'reset',
-                        value: next,
-                        key: entryKey,
-                        item: defaultValue[entryKey],
-                      });
-                    }
-                  : undefined
-              }
-            />
-          ))}
-        </div>
-      ) : null}
-      <div className={styles.footer}>
-        <button type="button" className={styles.addButton} onClick={addItem}>
-          Add Item
-        </button>
-      </div>
+      <ObjectEditorRows
+        entries={entries}
+        schema={schema}
+        defaultValue={defaultValue}
+        editingKey={editingKey}
+        onStartEdit={handleStartEdit}
+        onCommit={handleCommit}
+        onCancel={handleCancel}
+        onRemove={handleRemove}
+        onReset={handleReset}
+      />
+      <ObjectEditorFooter onAddItem={addItem} />
     </div>
   );
 }
