@@ -71,11 +71,9 @@ export function Collapsible({
           onClick={toggle}
         >
           <Icon
-            name="chevron-right"
+            name={isOpen ? 'chevron-down' : 'chevron-right'}
             size={16}
-            className={[styles.icon, isOpen ? styles.iconOpen : '']
-              .filter(Boolean)
-              .join(' ')}
+            className={styles.icon}
           />
           <span className={styles.title}>
             {title}
