@@ -37,7 +37,7 @@
   border-top: 1px solid var(--vscode-panel-border);
 }
 
-.row:first-of-type {
+.header + .row {
   border-top: 0;
 }
 
