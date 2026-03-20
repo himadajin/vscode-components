@@ -8,6 +8,7 @@ import {
   ObjectEditor,
   Select,
   SettingItem,
+  Textarea,
   TextInput,
 } from 'vscode-components';
 
@@ -21,6 +22,9 @@ function ControlsPreview() {
   const [fontSize, setFontSize] = useState('14');
   const [autoSave, setAutoSave] = useState(true);
   const [theme, setTheme] = useState('Default Dark+');
+  const [systemPrompt, setSystemPrompt] = useState(
+    'You are a precise assistant.\nSummarize changes before proposing code.',
+  );
 
   return (
     <>
@@ -58,6 +62,19 @@ function ControlsPreview() {
           enum={['Default Dark+', 'Light+', 'High Contrast Dark']}
           value={theme}
           onChange={setTheme}
+        />
+      </SettingItem>
+      <SettingItem
+        title="Chat: System Prompt"
+        description="Provides the base prompt used for prompt-driven editing and review tasks."
+        className="setting-item setting-item-text"
+      >
+        <Textarea
+          rows={4}
+          monospace
+          value={systemPrompt}
+          onChange={setSystemPrompt}
+          placeholder="Enter a system prompt"
         />
       </SettingItem>
     </>

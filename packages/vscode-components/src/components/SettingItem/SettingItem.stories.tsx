@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
 import { ListEditor } from '../ListEditor';
 import { Select } from '../Select';
+import { Textarea } from '../Textarea';
 import { TextInput } from '../TextInput';
 import { SettingItem } from './SettingItem';
 
@@ -37,6 +38,19 @@ export const WithSelect: Story = {
   args: {
     title: 'Workbench: Color Theme',
     children: <Select enum={['Default Dark+', 'Light+', 'High Contrast']} />,
+  },
+};
+export const WithTextarea: Story = {
+  args: {
+    title: 'Chat: System Prompt',
+    description: 'Defines the base instruction used for prompt-driven actions.',
+    children: (
+      <Textarea
+        rows={4}
+        defaultValue={'You are a careful assistant.\nReturn concise answers.'}
+        monospace
+      />
+    ),
   },
 };
 export const WithListEditor: Story = {
