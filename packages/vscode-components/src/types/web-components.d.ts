@@ -23,7 +23,18 @@ interface VSCodeIntrinsicElements {
   };
   'vscode-option': HTMLElementProps<HTMLOptionElement> & {
     value?: string;
+    description?: string;
     selected?: boolean;
+    disabled?: boolean;
+  };
+  'vscode-multi-select': HTMLElementProps<HTMLElement> & {
+    value?: string[];
+    disabled?: boolean;
+    required?: boolean;
+    invalid?: boolean;
+    label?: string;
+    combobox?: boolean;
+    creatable?: boolean;
   };
   'vscode-single-select': HTMLElementProps<HTMLElement> & {
     value?: string;

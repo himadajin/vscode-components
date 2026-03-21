@@ -1,0 +1,10 @@
+.root {
+  display: inline-block;
+  width: min(420px, 100%);
+  max-width: 100%;
+}
+
+.fill {
+  width: 100%;
+  max-width: none;
+}

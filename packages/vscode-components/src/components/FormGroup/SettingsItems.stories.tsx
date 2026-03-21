@@ -7,10 +7,14 @@ import { FormContainer } from '../FormContainer';
 import { FormHelper } from '../FormHelper';
 import { Label } from '../Label';
 import { ListEditor } from '../ListEditor';
+import { MultiSelect } from '../MultiSelect';
+import { ProgressRing } from '../ProgressRing';
 import { Radio } from '../Radio';
 import { RadioGroup } from '../RadioGroup';
 import { Select } from '../Select';
 import { SplitLayout } from '../SplitLayout';
+import { ToolbarButton } from '../ToolbarButton';
+import { ToolbarContainer } from '../ToolbarContainer';
 import { TabHeader } from '../TabHeader';
 import { TabPanel } from '../TabPanel';
 import { Textarea } from '../Textarea';
@@ -71,6 +75,61 @@ export const WithSelect: Story = {
     children: <Select enum={['Default Dark+', 'Light+', 'High Contrast']} />,
     fill: true,
   },
+};
+
+export const WithMultiSelect: Story = {
+  args: {
+    label: 'Files: Readonly Include',
+    description: 'Choose the languages that inherit readonly mode.',
+    fill: true,
+  },
+  render: (args) => {
+    const [value, setValue] = useState(['typescript', 'json']);
+
+    return (
+      <FormGroup {...args}>
+        <MultiSelect
+          fill
+          enum={['typescript', 'javascript', 'json', 'markdown']}
+          enumItemLabels={['TypeScript', 'JavaScript', 'JSON', 'Markdown']}
+          value={value}
+          onChange={setValue}
+        />
+      </FormGroup>
+    );
+  },
+};
+
+export const WithToolbarActions: Story = {
+  args: {
+    label: 'Chat: Inline Actions',
+    description:
+      'Shows compact row actions aligned like VS Code command surfaces.',
+  },
+  render: (args) => (
+    <FormGroup {...args}>
+      <ToolbarContainer ariaLabel="Inline actions">
+        <ToolbarButton icon="refresh" label="Refresh" />
+        <ToolbarButton icon="sparkle" label="Generate" />
+        <ToolbarButton icon="gear" label="Configure" />
+      </ToolbarContainer>
+    </FormGroup>
+  ),
+};
+
+export const WithProgressRing: Story = {
+  args: {
+    label: 'Extensions: Verify Recommendations',
+    description: 'Displays lightweight background work within a setting row.',
+    fill: true,
+  },
+  render: (args) => (
+    <FormGroup {...args}>
+      <div style={{ width: '100%', maxWidth: 420, paddingTop: 9 }}>
+        <ProgressRing ariaLabel="Verifying recommendations" />
+      </div>
+    </FormGroup>
+  ),
 };
 
 export const WithRadioGroup: Story = {

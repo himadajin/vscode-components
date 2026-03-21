@@ -1,0 +1,41 @@
+.root {
+  white-space: nowrap;
+  height: 100%;
+}
+
+.actionsContainer {
+  display: flex;
+  margin: 0 auto;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  list-style: none;
+}
+
+.vertical {
+  text-align: left;
+}
+
+.vertical .actionsContainer {
+  display: inline-flex;
+  flex-direction: column;
+  width: auto;
+  align-items: stretch;
+}
+
+.actionItem {
+  display: block;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+.actionItemDisabled {
+  cursor: default;
+}
+
+.grouped .actionsContainer {
+  gap: 0;
+}
