@@ -8,6 +8,7 @@
 
 .root:focus-within {
   background: var(--vscode-settings-focusedRowBackground);
+  outline: 1px solid var(--vscode-settings-focusedRowBorder);
 }
 
 .modified::before {

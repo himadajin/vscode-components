@@ -7,6 +7,6 @@
   border-top: 1px solid transparent;
 }
 
-.root > *:hover {
+.root > *:not(:focus-within):hover {
   background-color: var(--vscode-settings-rowHoverBackground);
 }

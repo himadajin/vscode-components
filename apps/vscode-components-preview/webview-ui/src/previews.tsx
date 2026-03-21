@@ -2,16 +2,18 @@ import { useState, type ReactNode } from 'react';
 import {
   Badge,
   Button,
+  ButtonGroup,
   Checkbox,
   Collapsible,
   Divider,
   FormContainer,
   FormGroup,
   FormHelper,
-  Icon,
   Label,
   ListEditor,
+  MultiSelect,
   ObjectEditor,
+  ProgressRing,
   Radio,
   RadioGroup,
   Select,
@@ -21,6 +23,8 @@ import {
   Textarea,
   TextInput,
   Tabs,
+  ToolbarButton,
+  ToolbarContainer,
 } from 'vscode-components';
 
 type PreviewDefinition = {
@@ -276,24 +280,40 @@ function CollectionPreview() {
 function ActionsPreview() {
   const [launchCount, setLaunchCount] = useState(1);
   const [syncEnabled, setSyncEnabled] = useState(true);
+  const [readonlyScopes, setReadonlyScopes] = useState(['typescript', 'json']);
 
   return (
     <>
       <div className="preview-toolbar">
         <div className="preview-toolbar-group">
-          <Button onClick={() => setLaunchCount((count) => count + 1)}>
-            Refresh Preview
-          </Button>
-          <Button
-            variant="secondary"
-            iconAfter="arrow-right"
-            onClick={() => setSyncEnabled((current) => !current)}
-          >
-            {syncEnabled ? 'Disable Sync' : 'Enable Sync'}
-          </Button>
+          <ToolbarContainer ariaLabel="Preview actions">
+            <ToolbarButton
+              icon="refresh"
+              label="Refresh Preview"
+              onClick={() => setLaunchCount((count) => count + 1)}
+            />
+            <ToolbarButton
+              icon="sync"
+              label="Toggle Sync"
+              toggleable
+              checked={syncEnabled}
+              onClick={() => setSyncEnabled((current) => !current)}
+            />
+            <ToolbarButton icon="gear" label="Configure" />
+          </ToolbarContainer>
+          <ButtonGroup ariaLabel="Transport controls">
+            <ToolbarButton icon="chevron-left" label="Previous" />
+            <ToolbarButton icon="play" label="Run" />
+            <ToolbarButton icon="chevron-right" label="Next" />
+          </ButtonGroup>
         </div>
         <div className="preview-toolbar-group">
-          <Icon name="sync" icon="sync~spin" aria-hidden="true" />
+          <div style={{ width: 120 }}>
+            <ProgressRing
+              ariaLabel="Background sync in progress"
+              longRunning={syncEnabled}
+            />
+          </div>
           <Badge variant="counter">{launchCount}</Badge>
           <Badge>{syncEnabled ? 'Active' : 'Paused'}</Badge>
         </div>
@@ -309,6 +329,19 @@ function ActionsPreview() {
             checked={syncEnabled}
             onChange={setSyncEnabled}
             label={syncEnabled ? 'On' : 'Off'}
+          />
+        </FormGroup>
+        <FormGroup
+          label="Files: Readonly Include"
+          description="Select the languages that stay readonly during background runs."
+          fill
+        >
+          <MultiSelect
+            fill
+            enum={['typescript', 'javascript', 'json', 'markdown']}
+            enumItemLabels={['TypeScript', 'JavaScript', 'JSON', 'Markdown']}
+            value={readonlyScopes}
+            onChange={setReadonlyScopes}
           />
         </FormGroup>
       </FormContainer>
