@@ -44,6 +44,22 @@ function getMirrorValue(value: string, rows: number | undefined) {
   return `${baseValue}${paddingLines} `;
 }
 
+function syncTextareaHeight(
+  textarea: HTMLTextAreaElement | null,
+  mirror: HTMLDivElement | null,
+  mirrorValue: string,
+) {
+  if (!textarea || !mirror) {
+    return;
+  }
+
+  mirror.textContent = mirrorValue;
+  const nextHeight = `${mirror.getBoundingClientRect().height}px`;
+  if (textarea.style.height !== nextHeight) {
+    textarea.style.height = nextHeight;
+  }
+}
+
 export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   function Textarea(
     {
@@ -97,14 +113,23 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
     }, []);
 
     useLayoutEffect(() => {
-      const textarea = textareaRef.current;
-      const mirror = mirrorRef.current;
-      if (!textarea || !mirror) {
+      syncTextareaHeight(textareaRef.current, mirrorRef.current, mirrorValue);
+    });
+
+    useEffect(() => {
+      if (typeof window === 'undefined') {
         return;
       }
 
-      mirror.textContent = mirrorValue;
-      textarea.style.height = `${mirror.getBoundingClientRect().height}px`;
+      const handleResize = () => {
+        syncTextareaHeight(textareaRef.current, mirrorRef.current, mirrorValue);
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
     }, [mirrorValue]);
 
     const rootClassName = [

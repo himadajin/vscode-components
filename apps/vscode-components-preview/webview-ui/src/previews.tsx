@@ -27,9 +27,19 @@ import {
   ToolbarContainer,
 } from 'vscode-components';
 
+export const previewTabs = [
+  { id: 'form-controls', label: 'Form Controls' },
+  { id: 'data-editors', label: 'Data Editors' },
+  { id: 'actions-layout', label: 'Actions & Layout' },
+] as const;
+
+export type PreviewTabId = (typeof previewTabs)[number]['id'];
+
 type PreviewDefinition = {
   id: string;
   title: string;
+  tab: PreviewTabId;
+  components: string[];
   render: () => ReactNode;
 };
 
@@ -483,36 +493,103 @@ export const previews: PreviewDefinition[] = [
   {
     id: 'label',
     title: 'Labels',
+    tab: 'form-controls',
+    components: ['Label', 'TextInput', 'FormContainer', 'FormGroup'],
     render: () => <LabelPreview />,
   },
   {
     id: 'form',
     title: 'Form Layout',
+    tab: 'form-controls',
+    components: [
+      'FormContainer',
+      'FormGroup',
+      'FormHelper',
+      'TextInput',
+      'Checkbox',
+    ],
     render: () => <FormPreview />,
   },
   {
     id: 'controls',
     title: 'Primitive Controls',
+    tab: 'form-controls',
+    components: [
+      'FormContainer',
+      'FormGroup',
+      'TextInput',
+      'Checkbox',
+      'Select',
+      'RadioGroup',
+      'Radio',
+      'Textarea',
+      'Divider',
+      'FormHelper',
+    ],
     render: () => <ControlsPreview />,
   },
   {
     id: 'collapsible',
     title: 'Collapsible Sections',
+    tab: 'data-editors',
+    components: [
+      'Collapsible',
+      'Badge',
+      'Button',
+      'FormContainer',
+      'FormGroup',
+      'TextInput',
+    ],
     render: () => <CollapsiblePreview />,
   },
   {
     id: 'collections',
     title: 'Composite Editors',
+    tab: 'data-editors',
+    components: [
+      'FormContainer',
+      'FormGroup',
+      'FormHelper',
+      'ListEditor',
+      'ObjectEditor',
+    ],
     render: () => <CollectionPreview />,
   },
   {
     id: 'actions',
     title: 'Command Surface',
+    tab: 'actions-layout',
+    components: [
+      'ToolbarContainer',
+      'ToolbarButton',
+      'ButtonGroup',
+      'Badge',
+      'ProgressRing',
+      'FormContainer',
+      'FormGroup',
+      'Checkbox',
+      'MultiSelect',
+    ],
     render: () => <ActionsPreview />,
   },
   {
     id: 'navigation-layout',
     title: 'Navigation & Layout',
+    tab: 'actions-layout',
+    components: [
+      'Tabs',
+      'TabHeader',
+      'TabPanel',
+      'SplitLayout',
+      'FormContainer',
+      'FormGroup',
+      'Button',
+    ],
     render: () => <NavigationLayoutPreview />,
   },
 ];
+
+export const previewsByTab = previewTabs.map((tab) => ({
+  ...tab,
+  previews: previews.filter((preview) => preview.tab === tab.id),
+}));
