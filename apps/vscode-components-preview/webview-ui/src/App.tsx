@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { previews } from './previews';
+import { TabHeader, TabPanel, Tabs } from 'vscode-components';
+import { previewsByTab } from './previews';
 import { vscode } from './vscode';
 import './app.css';
 
@@ -9,6 +10,7 @@ type ExtensionMessage = {
 
 export function App() {
   const [, setOpened] = useState(false);
+  const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent<ExtensionMessage>) => {
@@ -48,18 +50,44 @@ export function App() {
   return (
     <main className="settings-editor preview-shell">
       <section className="settings-body preview-body">
-        <div className="settings-tree-container preview-tree">
-          {previews.map((preview) => (
-            <article key={preview.id} className="preview-card">
-              <header className="preview-card-header">
-                <h2 className="settings-group-title-label settings-group-level-2">
-                  {preview.title}
-                </h2>
-              </header>
-              <div className="preview-settings-row">{preview.render()}</div>
-            </article>
+        <Tabs
+          panel
+          selectedIndex={selectedTabIndex}
+          onSelect={setSelectedTabIndex}
+        >
+          {previewsByTab.map((tab) => (
+            <TabHeader key={tab.id}>{tab.label}</TabHeader>
           ))}
-        </div>
+          {previewsByTab.map((tab) => (
+            <TabPanel key={tab.id} panel>
+              <div className="settings-tree-container preview-tree">
+                {tab.previews.map((preview) => (
+                  <article key={preview.id} className="preview-card">
+                    <header className="preview-card-header">
+                      <h2 className="settings-group-title-label settings-group-level-2">
+                        {preview.title}
+                      </h2>
+                      <div
+                        style={{
+                          color: 'var(--vscode-descriptionForeground)',
+                          fontSize: '12px',
+                          lineHeight: 1.4,
+                          marginTop: '-2px',
+                          padding: '0 15px 10px',
+                        }}
+                      >
+                        {preview.components.join(', ')}
+                      </div>
+                    </header>
+                    <div className="preview-settings-row">
+                      {preview.render()}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </TabPanel>
+          ))}
+        </Tabs>
       </section>
     </main>
   );
