@@ -1,0 +1,178 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  margin-bottom: 1px;
+  padding: 1px;
+  outline: none;
+}
+
+.headerGroup,
+.body {
+  display: block;
+  min-width: 0;
+}
+
+.addButtonRow {
+  display: block;
+}
+
+.addButton {
+  display: inline-block;
+  margin-top: 4px;
+  margin-right: 4px;
+  width: initial;
+  white-space: nowrap;
+}
+
+.header,
+.row {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--vscode-table-columns, minmax(0, 1fr));
+  align-items: center;
+  min-height: 24px;
+  max-height: 24px;
+}
+
+.header {
+  font-weight: 700;
+}
+
+.striped .header,
+.striped
+  .body
+  .row:nth-child(odd):not(:hover):not(:focus-within):not(.selected) {
+  background-color: rgba(130, 130, 130, 0.04);
+}
+
+.row {
+  color: var(--vscode-foreground);
+  outline: none;
+}
+
+.interactive {
+  cursor: default;
+}
+
+.hoverable:hover {
+  background-color: var(--vscode-list-hoverBackground);
+  color: var(--vscode-list-hoverForeground);
+}
+
+.selected:focus-within {
+  background-color: var(--vscode-list-activeSelectionBackground);
+  color: var(--vscode-list-activeSelectionForeground);
+}
+
+.selected:not(:focus-within) {
+  background-color: var(--vscode-list-inactiveSelectionBackground);
+  color: var(--vscode-list-inactiveSelectionForeground);
+}
+
+.cell,
+.headerCell {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 24px;
+  line-height: 24px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cell {
+  padding: 0 4px;
+}
+
+.headerCell {
+  padding: 0 4px;
+}
+
+.keyCell {
+  margin-left: 4px;
+}
+
+.valueCell {
+  width: 100%;
+}
+
+.muted {
+  opacity: 0.7;
+  font-size: 0.9em;
+  white-space: pre;
+}
+
+.actionsCell {
+  justify-content: flex-end;
+  gap: 2px;
+  overflow: visible;
+  padding-right: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+
+.row:hover .actionsCell,
+.row.selected .actionsCell,
+.row:focus-within .actionsCell {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.editingRow .actionsCell {
+  opacity: 1;
+  pointer-events: auto;
+  justify-content: flex-end;
+  gap: 0;
+}
+
+.editingRow .cell {
+  overflow: visible;
+}
+
+.editingField {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  max-width: 320px;
+}
+
+.editingFieldFill {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+.editingKeyField {
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+}
+
+.okButton {
+  margin: 0 4px;
+}
+
+.headerActionsCell {
+  justify-content: flex-end;
+  overflow: visible;
+  padding-right: 4px;
+}
+
+.invalid .keyCell {
+  color: var(--vscode-list-errorForeground);
+}
+
+.alignCenter {
+  justify-content: center;
+  text-align: center;
+}
+
+.alignEnd {
+  justify-content: flex-end;
+  text-align: right;
+}

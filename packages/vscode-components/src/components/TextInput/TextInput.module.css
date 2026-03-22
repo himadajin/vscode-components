@@ -1,10 +1,62 @@
 .root {
+  box-sizing: border-box;
   display: inline-block;
+  height: 24px;
   max-width: 100%;
+  padding: 4px 6px;
+  border: 1px solid
+    var(
+      --vscode-settings-textInputBorder,
+      var(--vscode-settings-textInputBackground)
+    );
+  border-radius: 4px;
+  background: var(--vscode-settings-textInputBackground);
+  color: var(--vscode-settings-textInputForeground);
+  font-family: var(--vscode-font-family);
+  font-size: 13px;
+  font-weight: var(--vscode-font-weight, normal);
+  line-height: 16px;
+  outline: none;
+}
+
+.root:focus {
+  border-color: var(--vscode-focusBorder);
+}
+
+.root::placeholder {
+  color: var(--vscode-input-placeholderForeground);
+  opacity: 1;
+}
+
+.root:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.root:read-only:not([type='file']) {
+  cursor: not-allowed;
+}
+
+.root:invalid,
+.invalid {
+  border-color: var(--vscode-inputValidation-errorBorder);
+  background: var(--vscode-inputValidation-errorBackground);
+  color: var(--vscode-inputValidation-errorForeground, inherit);
+}
+
+.root[type='number'] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.root[type='number']::-webkit-outer-spin-button,
+.root[type='number']::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
 }
 
 .string {
-  width: min(420px, 100%);
+  width: min(320px, 100%);
 }
 
 .number {

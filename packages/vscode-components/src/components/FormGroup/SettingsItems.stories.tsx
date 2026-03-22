@@ -13,6 +13,14 @@ import { Radio } from '../Radio';
 import { RadioGroup } from '../RadioGroup';
 import { Select } from '../Select';
 import { SplitLayout } from '../SplitLayout';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+} from '../Table';
 import { ToolbarButton } from '../ToolbarButton';
 import { ToolbarContainer } from '../ToolbarContainer';
 import { TabHeader } from '../TabHeader';
@@ -219,6 +227,43 @@ export const NestedLabelDemo: Story = {
           defaultValue="workbench.action.showCommands"
         />
       </div>
+    </FormGroup>
+  ),
+};
+
+export const WithTable: Story = {
+  args: {
+    label: 'Accessibility > Signals: Chat User Action Required',
+    description:
+      'Shows the VS Code object-style settings table pattern with Item/Value columns and reset actions.',
+    fill: true,
+  },
+  render: (args) => (
+    <FormGroup {...args}>
+      <Table
+        ariaLabel="Accessibility signal table"
+        columns="minmax(0, 40%) minmax(0, 1fr) 92px"
+        striped
+        defaultSelectedRowId="sound"
+      >
+        <TableHeader>
+          <TableHeaderCell kind="key">Item</TableHeaderCell>
+          <TableHeaderCell>Value</TableHeaderCell>
+          <TableHeaderCell kind="actions" aria-hidden="true" />
+        </TableHeader>
+        <TableBody>
+          <TableRow rowId="sound">
+            <TableCell kind="key">sound</TableCell>
+            <TableCell>auto</TableCell>
+            <TableCell kind="actions" />
+          </TableRow>
+          <TableRow rowId="announcement">
+            <TableCell kind="key">announcement</TableCell>
+            <TableCell>auto</TableCell>
+            <TableCell kind="actions" />
+          </TableRow>
+        </TableBody>
+      </Table>
     </FormGroup>
   ),
 };

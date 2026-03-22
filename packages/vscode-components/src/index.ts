@@ -17,6 +17,7 @@ export * from './components/Radio';
 export * from './components/RadioGroup';
 export * from './components/Select';
 export * from './components/Tabs';
+export * from './components/Table';
 export * from './components/TabHeader';
 export * from './components/TabPanel';
 export * from './components/SplitLayout';

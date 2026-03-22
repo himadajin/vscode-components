@@ -1,8 +1,9 @@
-import { forwardRef, useRef } from 'react';
-import { mergeRefs, useWebComponentEvent } from '../../hooks/useWebComponent';
+import { forwardRef } from 'react';
+import { Icon } from '../Icon';
+import styles from './Button.module.css';
 
 export interface ButtonProps extends Omit<
-  React.HTMLAttributes<HTMLElement>,
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
   'onClick'
 > {
   children: React.ReactNode;
@@ -14,38 +15,60 @@ export interface ButtonProps extends Omit<
   onClick?: () => void;
 }
 
-export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(
-  {
-    children,
-    variant = 'primary',
-    disabled,
-    icon,
-    iconAfter,
-    type = 'button',
-    onClick,
-    ...props
-  },
-  forwardedRef,
-) {
-  const innerRef = useRef<HTMLElement | null>(null);
-  useWebComponentEvent(
-    innerRef,
-    'click',
-    () => undefined,
-    () => onClick?.(),
-  );
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      children,
+      variant = 'primary',
+      disabled,
+      icon,
+      iconAfter,
+      type = 'button',
+      onClick,
+      className,
+      ...props
+    },
+    forwardedRef,
+  ) {
+    const classNames = [
+      styles.root,
+      variant === 'secondary' ? styles.secondary : '',
+      disabled ? styles.disabled : '',
+      className ?? '',
+    ]
+      .filter(Boolean)
+      .join(' ');
 
-  return (
-    <vscode-button
-      ref={mergeRefs(innerRef, forwardedRef)}
-      secondary={variant === 'secondary'}
-      disabled={disabled}
-      type={type}
-      {...(icon ? { icon } : {})}
-      {...(iconAfter ? { 'icon-after': iconAfter } : {})}
-      {...props}
-    >
-      {children}
-    </vscode-button>
-  );
-});
+    return (
+      <button
+        ref={forwardedRef}
+        className={classNames}
+        disabled={disabled}
+        type={type}
+        data-toolbar-button="true"
+        onClick={() => onClick?.()}
+        {...props}
+      >
+        <span className={styles.content}>
+          {icon ? (
+            <Icon
+              name={icon}
+              size={16}
+              className={styles.iconBefore}
+              aria-hidden="true"
+            />
+          ) : null}
+          {children}
+          {iconAfter ? (
+            <Icon
+              name={iconAfter}
+              size={16}
+              className={styles.iconAfter}
+              aria-hidden="true"
+            />
+          ) : null}
+        </span>
+      </button>
+    );
+  },
+);

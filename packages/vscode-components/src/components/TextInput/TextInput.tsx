@@ -1,9 +1,8 @@
-import { forwardRef, useEffect, useRef } from 'react';
-import { mergeRefs, useWebComponentEvent } from '../../hooks/useWebComponent';
+import { forwardRef } from 'react';
 import styles from './TextInput.module.css';
 
 export interface TextInputProps extends Omit<
-  React.HTMLAttributes<HTMLElement>,
+  React.InputHTMLAttributes<HTMLInputElement>,
   'defaultValue' | 'onChange'
 > {
   value?: string | number;
@@ -18,7 +17,7 @@ export interface TextInputProps extends Omit<
   onChange?: (value: string) => void;
 }
 
-export const TextInput = forwardRef<HTMLElement, TextInputProps>(
+export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   function TextInput(
     {
       value,
@@ -36,62 +35,28 @@ export const TextInput = forwardRef<HTMLElement, TextInputProps>(
     },
     forwardedRef,
   ) {
-    const innerRef = useRef<HTMLElement | null>(null);
-
-    useEffect(() => {
-      const element = innerRef.current as
-        | (HTMLElement & { value?: string })
-        | null;
-      if (element && value !== undefined) {
-        element.value = String(value);
-      }
-    }, [value]);
-
-    useEffect(() => {
-      const element = innerRef.current as
-        | (HTMLElement & { value?: string })
-        | null;
-      if (
-        element &&
-        value === undefined &&
-        defaultValue !== undefined &&
-        !element.value
-      ) {
-        element.value = String(defaultValue);
-      }
-    }, [defaultValue, value]);
-
-    useWebComponentEvent(
-      innerRef,
-      'input',
-      (element) => (element as HTMLElement & { value?: string }).value ?? '',
-      (nextValue) => onChange?.(nextValue),
-    );
-
-    useWebComponentEvent(
-      innerRef,
-      'change',
-      (element) => (element as HTMLElement & { value?: string }).value ?? '',
-      (nextValue) => onChange?.(nextValue),
-    );
-
     const widthClass = type === 'string' ? styles.string : styles.number;
     const classes = [styles.root, widthClass, className ?? '']
       .filter(Boolean)
       .join(' ');
 
     return (
-      <vscode-textfield
-        ref={mergeRefs(innerRef, forwardedRef)}
+      <input
+        ref={forwardedRef}
         className={classes}
         value={value === undefined ? undefined : String(value)}
+        defaultValue={
+          defaultValue === undefined ? undefined : String(defaultValue)
+        }
         placeholder={placeholder}
         disabled={disabled}
-        readonly={readOnly}
+        readOnly={readOnly}
         type={type === 'string' ? 'text' : 'number'}
         pattern={pattern}
-        maxlength={maxLength}
-        minlength={minLength}
+        maxLength={maxLength}
+        minLength={minLength}
+        onInput={(event) => onChange?.(event.currentTarget.value)}
+        onChange={(event) => onChange?.(event.currentTarget.value)}
         {...props}
       />
     );

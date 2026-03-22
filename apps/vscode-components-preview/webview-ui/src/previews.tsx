@@ -18,6 +18,12 @@ import {
   RadioGroup,
   Select,
   SplitLayout,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
   TabHeader,
   TabPanel,
   Textarea,
@@ -282,6 +288,52 @@ function CollectionPreview() {
             },
           }}
         />
+      </FormGroup>
+    </FormContainer>
+  );
+}
+
+function TablePreview() {
+  const [selectedRowId, setSelectedRowId] = useState<string | null>('sound');
+
+  return (
+    <FormContainer>
+      <FormGroup
+        label="Accessibility > Signals: Chat User Action Required"
+        description="Plays a signal sound cue or announcement when chat requires user action."
+        helper="Mirrors VS Code's object setting widget: Item/Value columns and row actions instead of a separate Default column."
+        fill
+      >
+        <Table
+          ariaLabel="Accessibility signal table"
+          columns="minmax(0, 40%) minmax(0, 1fr) 92px"
+          striped
+          selectedRowId={selectedRowId}
+          onSelectedRowChange={setSelectedRowId}
+        >
+          <TableHeader>
+            <TableHeaderCell kind="key">Item</TableHeaderCell>
+            <TableHeaderCell>Value</TableHeaderCell>
+            <TableHeaderCell kind="actions" aria-hidden="true" />
+          </TableHeader>
+          <TableBody>
+            <TableRow rowId="sound">
+              <TableCell kind="key">sound</TableCell>
+              <TableCell>auto</TableCell>
+              <TableCell kind="actions" />
+            </TableRow>
+            <TableRow rowId="announcement">
+              <TableCell kind="key">announcement</TableCell>
+              <TableCell>auto</TableCell>
+              <TableCell kind="actions" />
+            </TableRow>
+            <TableRow rowId="alert">
+              <TableCell kind="key">alert</TableCell>
+              <TableCell>off</TableCell>
+              <TableCell kind="actions" />
+            </TableRow>
+          </TableBody>
+        </Table>
       </FormGroup>
     </FormContainer>
   );
@@ -554,6 +606,22 @@ export const previews: PreviewDefinition[] = [
       'ObjectEditor',
     ],
     render: () => <CollectionPreview />,
+  },
+  {
+    id: 'table',
+    title: 'Settings Table',
+    tab: 'data-editors',
+    components: [
+      'FormContainer',
+      'FormGroup',
+      'Table',
+      'TableHeader',
+      'TableHeaderCell',
+      'TableBody',
+      'TableRow',
+      'TableCell',
+    ],
+    render: () => <TablePreview />,
   },
   {
     id: 'actions',

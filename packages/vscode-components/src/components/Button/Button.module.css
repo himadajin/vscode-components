@@ -1,0 +1,70 @@
+.root {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  padding: 4px 8px;
+  border: 1px solid var(--vscode-button-border, transparent);
+  border-radius: 4px;
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  font-family: var(--vscode-font-family);
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 16px;
+  text-align: center;
+  cursor: pointer;
+  overflow-wrap: normal;
+  white-space: nowrap;
+}
+
+.secondary {
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+}
+
+.root:hover {
+  background: var(
+    --vscode-button-hoverBackground,
+    var(--vscode-button-background)
+  );
+  text-decoration: none;
+}
+
+.secondary:hover {
+  background: var(
+    --vscode-button-secondaryHoverBackground,
+    var(--vscode-button-secondaryBackground)
+  );
+}
+
+.root:focus {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: 2px;
+}
+
+.disabled,
+.disabled:hover,
+.disabled:focus {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.disabled:focus {
+  outline: none;
+}
+
+.content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconBefore {
+  margin-right: 3px;
+}
+
+.iconAfter {
+  margin-left: 3px;
+}
