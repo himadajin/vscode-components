@@ -4,6 +4,7 @@ import {
   Button,
   ButtonGroup,
   Checkbox,
+  CheckboxGroup,
   Collapsible,
   Divider,
   FormContainer,
@@ -28,6 +29,7 @@ import {
   TabPanel,
   Textarea,
   TextInput,
+  Tree,
   Tabs,
   ToolbarButton,
   ToolbarContainer,
@@ -54,6 +56,14 @@ function ControlsPreview() {
   const [autoSave, setAutoSave] = useState(true);
   const [theme, setTheme] = useState('Default Dark+');
   const [target, setTarget] = useState('workspace');
+  const [readonlyInclude, setReadonlyInclude] = useState<
+    Record<string, boolean>
+  >({
+    typescript: true,
+    javascript: false,
+    json: true,
+    markdown: false,
+  });
   const [systemPrompt, setSystemPrompt] = useState(
     'You are a precise assistant.\nSummarize changes before proposing code.',
   );
@@ -93,6 +103,22 @@ function ControlsPreview() {
           enum={['Default Dark+', 'Light+', 'High Contrast Dark']}
           value={theme}
           onChange={setTheme}
+        />
+      </FormGroup>
+      <FormGroup
+        label="Files: Readonly Include"
+        description="Controls the languages that remain readonly in filtered views."
+        fill
+      >
+        <CheckboxGroup
+          items={[
+            { key: 'typescript', label: 'TypeScript' },
+            { key: 'javascript', label: 'JavaScript' },
+            { key: 'json', label: 'JSON' },
+            { key: 'markdown', label: 'Markdown' },
+          ]}
+          value={readonlyInclude}
+          onChange={setReadonlyInclude}
         />
       </FormGroup>
       <FormGroup
@@ -541,6 +567,125 @@ function NavigationLayoutPreview() {
   );
 }
 
+function TreePreview() {
+  const [selectedIds, setSelectedIds] = useState(['tree-tree-tsx']);
+
+  return (
+    <FormContainer>
+      <FormGroup
+        label="Explorer: File Tree"
+        description="VS Code style hierarchical navigation with twisties, keyboard navigation, and selection state."
+        fill
+      >
+        <Tree
+          ariaLabel="Explorer preview"
+          items={[
+            {
+              id: 'tree-src',
+              label: 'src',
+              icon: 'folder',
+              children: [
+                {
+                  id: 'tree-components',
+                  label: 'components',
+                  icon: 'folder',
+                  children: [
+                    {
+                      id: 'tree-tree-tsx',
+                      label: 'Tree.tsx',
+                      icon: 'symbol-class',
+                    },
+                    {
+                      id: 'tree-tree-css',
+                      label: 'Tree.module.css',
+                      icon: 'symbol-color',
+                    },
+                  ],
+                },
+                { id: 'tree-index', label: 'index.ts', icon: 'symbol-file' },
+              ],
+            },
+            {
+              id: 'tree-package',
+              label: 'package.json',
+              icon: 'json',
+              badge: 'M',
+            },
+          ]}
+          defaultExpandedIds={['tree-src', 'tree-components']}
+          focusedId={selectedIds[0] ?? null}
+          selectedIds={selectedIds}
+          onSelectedIdsChange={setSelectedIds}
+          onFocusedIdChange={(focusedId) =>
+            setSelectedIds(focusedId ? [focusedId] : [])
+          }
+          renderIndentGuides="onHover"
+          style={{
+            width: '100%',
+            maxWidth: 420,
+            height: 220,
+            border: '1px solid var(--vscode-panel-border)',
+          }}
+        />
+      </FormGroup>
+      <FormGroup
+        label="Workbench: Settings Categories"
+        description="Matches the category-navigation pattern used by the Settings editor."
+        fill
+      >
+        <Tree
+          ariaLabel="Settings categories preview"
+          items={[
+            {
+              id: 'settings-common',
+              label: 'Most Commonly Used',
+              icon: 'star-full',
+            },
+            {
+              id: 'settings-editor',
+              label: 'Text Editor',
+              icon: 'edit',
+              children: [
+                { id: 'settings-font', label: 'Font', icon: 'symbol-number' },
+                {
+                  id: 'settings-cursor',
+                  label: 'Cursor',
+                  icon: 'symbol-key',
+                },
+                { id: 'settings-diff', label: 'Diff Editor', icon: 'diff' },
+              ],
+            },
+            {
+              id: 'settings-features',
+              label: 'Features',
+              icon: 'extensions',
+              children: [
+                {
+                  id: 'settings-explorer',
+                  label: 'Explorer',
+                  icon: 'files',
+                },
+                { id: 'settings-search', label: 'Search', icon: 'search' },
+                { id: 'settings-chat', label: 'Chat', icon: 'comment' },
+              ],
+            },
+          ]}
+          defaultExpandedIds={['settings-editor', 'settings-features']}
+          defaultSelectedIds={['settings-chat']}
+          defaultFocusedId="settings-chat"
+          renderIndentGuides="always"
+          style={{
+            width: '100%',
+            maxWidth: 420,
+            height: 240,
+            border: '1px solid var(--vscode-panel-border)',
+          }}
+        />
+      </FormGroup>
+    </FormContainer>
+  );
+}
+
 export const previews: PreviewDefinition[] = [
   {
     id: 'label',
@@ -571,6 +716,7 @@ export const previews: PreviewDefinition[] = [
       'FormGroup',
       'TextInput',
       'Checkbox',
+      'CheckboxGroup',
       'Select',
       'RadioGroup',
       'Radio',
@@ -622,6 +768,13 @@ export const previews: PreviewDefinition[] = [
       'TableCell',
     ],
     render: () => <TablePreview />,
+  },
+  {
+    id: 'tree',
+    title: 'Navigation Tree',
+    tab: 'data-editors',
+    components: ['Tree', 'FormContainer', 'FormGroup'],
+    render: () => <TreePreview />,
   },
   {
     id: 'actions',

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
+import { CheckboxGroup } from '../CheckboxGroup';
 import { Collapsible } from '../Collapsible';
 import { Divider } from '../Divider';
 import { FormContainer } from '../FormContainer';
@@ -23,6 +24,7 @@ import {
 } from '../Table';
 import { ToolbarButton } from '../ToolbarButton';
 import { ToolbarContainer } from '../ToolbarContainer';
+import { Tree } from '../Tree';
 import { TabHeader } from '../TabHeader';
 import { TabPanel } from '../TabPanel';
 import { Textarea } from '../Textarea';
@@ -82,6 +84,38 @@ export const WithSelect: Story = {
     label: 'Workbench: Color Theme',
     children: <Select enum={['Default Dark+', 'Light+', 'High Contrast']} />,
     fill: true,
+  },
+};
+
+export const WithCheckboxGroup: Story = {
+  args: {
+    label: 'Files: Readonly Include',
+    description:
+      'Controls the languages that remain readonly in filtered views.',
+    fill: true,
+  },
+  render: (args) => {
+    const [value, setValue] = useState<Record<string, boolean>>({
+      typescript: true,
+      javascript: false,
+      json: true,
+      markdown: false,
+    });
+
+    return (
+      <FormGroup {...args}>
+        <CheckboxGroup
+          items={[
+            { key: 'typescript', label: 'TypeScript' },
+            { key: 'javascript', label: 'JavaScript' },
+            { key: 'json', label: 'JSON' },
+            { key: 'markdown', label: 'Markdown' },
+          ]}
+          value={value}
+          onChange={setValue}
+        />
+      </FormGroup>
+    );
   },
 };
 
@@ -302,6 +336,58 @@ export const WithCollapsible: Story = {
           />
         </div>
       </Collapsible>
+    </FormGroup>
+  ),
+};
+
+export const WithTree: Story = {
+  args: {
+    label: 'Workbench: Settings Categories',
+    description:
+      'Shows a settings-style category tree embedded inside the setting content area.',
+    fill: true,
+  },
+  render: (args) => (
+    <FormGroup {...args} fill>
+      <div style={{ width: 'min(100%, 360px)' }}>
+        <Tree
+          ariaLabel="Settings categories"
+          items={[
+            {
+              id: 'common',
+              label: 'Most Commonly Used',
+              icon: 'star-full',
+            },
+            {
+              id: 'editor',
+              label: 'Text Editor',
+              icon: 'edit',
+              children: [
+                { id: 'editor-font', label: 'Font', icon: 'symbol-number' },
+                { id: 'editor-tabs', label: 'Tabs', icon: 'list-tree' },
+              ],
+            },
+            {
+              id: 'features',
+              label: 'Features',
+              icon: 'extensions',
+              children: [
+                { id: 'features-explorer', label: 'Explorer', icon: 'files' },
+                { id: 'features-search', label: 'Search', icon: 'search' },
+              ],
+            },
+          ]}
+          defaultExpandedIds={['editor', 'features']}
+          defaultSelectedIds={['features-explorer']}
+          defaultFocusedId="features-explorer"
+          renderIndentGuides="always"
+          style={{
+            width: '100%',
+            height: 220,
+            border: '1px solid var(--vscode-panel-border)',
+          }}
+        />
+      </div>
     </FormGroup>
   ),
 };
