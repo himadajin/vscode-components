@@ -13,7 +13,7 @@ The VS Code extension lives in [`apps/vscode-components-preview`](apps/vscode-co
 - `npm run dev`: Start Storybook for the component library.
 - `npm run dev:extension`: Watch and build the preview extension and webview assets.
 - `npm run build`: Build all workspaces.
-- `npm run build --workspace=vscode-components`: Build only the component library.
+- `npm run build --workspace=@himadajin/vscode-components`: Build only the component library.
 - `npm run build --workspace=vscode-components-preview`: Build only the preview extension.
 - `npm run typecheck`: Run workspace-wide TypeScript checks.
 - `npm run lint`: Run ESLint.
@@ -24,7 +24,7 @@ The VS Code extension lives in [`apps/vscode-components-preview`](apps/vscode-co
 
 ## Coding Style & Naming Conventions
 
-This project uses TypeScript, React JSX, strict compiler settings, and flat-config ESLint in [`eslint.config.mjs`](eslint.config.mjs). Follow Prettier defaults plus the repo rules in [`.prettierrc.json`](.prettierrc.json): single quotes, semicolons, and trailing commas. Match the existing style: PascalCase for component directories and component exports (`Button`, `TextInput`, `SettingItem`), camelCase for hooks (`useWebComponent`), and colocated barrel files named `index.ts`. Keep library exports centralized in [`packages/vscode-components/src/index.ts`](packages/vscode-components/src/index.ts). For the extension, keep Node-facing code in `src/extension.ts` and browser-facing webview code under `webview-ui/src`.
+This project uses TypeScript, React JSX, strict compiler settings, and flat-config ESLint in [`eslint.config.mjs`](eslint.config.mjs). Follow Prettier defaults plus the repo rules in [`.prettierrc.json`](.prettierrc.json): single quotes, semicolons, and trailing commas. Match the existing style: PascalCase for component directories and component exports (`Button`, `TextInput`, `ToolbarButton`), camelCase for hooks (`useWebComponent`), and colocated barrel files named `index.ts`. Keep library exports centralized in [`packages/vscode-components/src/index.ts`](packages/vscode-components/src/index.ts). For the extension, keep Node-facing code in `src/extension.ts` and browser-facing webview code under `webview-ui/src`.
 
 ## Testing Guidelines
 
@@ -49,4 +49,4 @@ These rules apply to every code-editing task, even when no commit will be create
 
 ## Commit & Pull Request Guidelines
 
-Keep commit subjects short, imperative, and focused on one logical change, following recent history such as `implement extension`, `implement components`, and `add AGENTS.md`. PRs should describe the user-facing change, list validation commands run, link the relevant issue when available, and include Storybook screenshots for library UI changes or VS Code/webview screenshots for extension-facing changes.
+Keep commit subjects short, imperative, and focused on one logical change, using concise subjects such as `implement table`, `implement components`, or `add README.md`. PRs should describe the user-facing change, list validation commands run, link the relevant issue when available, and include Storybook screenshots for library UI changes or VS Code/webview screenshots for extension-facing changes.
