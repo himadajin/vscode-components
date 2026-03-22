@@ -16,6 +16,7 @@ import { Select } from '../Select';
 import { SplitLayout } from '../SplitLayout';
 import { ToolbarButton } from '../ToolbarButton';
 import { ToolbarContainer } from '../ToolbarContainer';
+import { Tree } from '../Tree';
 import { TabHeader } from '../TabHeader';
 import { TabPanel } from '../TabPanel';
 import { Textarea } from '../Textarea';
@@ -109,7 +110,6 @@ export const WithCheckboxGroup: Story = {
     );
   },
 };
-
 export const WithMultiSelect: Story = {
   args: {
     label: 'Files: Readonly Include',
@@ -290,6 +290,58 @@ export const WithCollapsible: Story = {
           />
         </div>
       </Collapsible>
+    </FormGroup>
+  ),
+};
+
+export const WithTree: Story = {
+  args: {
+    label: 'Workbench: Settings Categories',
+    description:
+      'Shows a settings-style category tree embedded inside the setting content area.',
+    fill: true,
+  },
+  render: (args) => (
+    <FormGroup {...args} fill>
+      <div style={{ width: 'min(100%, 360px)' }}>
+        <Tree
+          ariaLabel="Settings categories"
+          items={[
+            {
+              id: 'common',
+              label: 'Most Commonly Used',
+              icon: 'star-full',
+            },
+            {
+              id: 'editor',
+              label: 'Text Editor',
+              icon: 'edit',
+              children: [
+                { id: 'editor-font', label: 'Font', icon: 'symbol-number' },
+                { id: 'editor-tabs', label: 'Tabs', icon: 'list-tree' },
+              ],
+            },
+            {
+              id: 'features',
+              label: 'Features',
+              icon: 'extensions',
+              children: [
+                { id: 'features-explorer', label: 'Explorer', icon: 'files' },
+                { id: 'features-search', label: 'Search', icon: 'search' },
+              ],
+            },
+          ]}
+          defaultExpandedIds={['editor', 'features']}
+          defaultSelectedIds={['features-explorer']}
+          defaultFocusedId="features-explorer"
+          renderIndentGuides="always"
+          style={{
+            width: '100%',
+            height: 220,
+            border: '1px solid var(--vscode-panel-border)',
+          }}
+        />
+      </div>
     </FormGroup>
   ),
 };

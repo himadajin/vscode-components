@@ -1,0 +1,217 @@
+.root {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  min-height: 22px;
+  overflow: auto;
+  color: var(--vscode-foreground);
+  background: var(
+    --vscode-tree-background,
+    var(--vscode-sideBar-background, transparent)
+  );
+  outline: none;
+}
+
+.rows {
+  position: relative;
+  width: 100%;
+  min-width: 100%;
+}
+
+.row {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--tree-row-height, 22px);
+  color: inherit;
+}
+
+.row:hover {
+  background: var(--vscode-list-hoverBackground);
+  color: var(--vscode-list-hoverForeground, inherit);
+}
+
+.rowSelected {
+  background: var(--vscode-list-inactiveSelectionBackground);
+  color: var(--vscode-list-inactiveSelectionForeground);
+}
+
+.focusedTree .rowFocused {
+  outline: 1px solid var(--vscode-listFocusOutline, var(--vscode-focusBorder));
+  outline-offset: -1px;
+}
+
+.focusedTree .rowFocused.rowSelected {
+  background: var(--vscode-list-activeSelectionBackground);
+  color: var(--vscode-list-activeSelectionForeground);
+}
+
+.rowDisabled {
+  cursor: default;
+  color: var(--vscode-disabledForeground, var(--vscode-descriptionForeground));
+}
+
+.treeRow {
+  display: flex;
+  align-items: center;
+  position: relative;
+  min-height: var(--tree-row-height, 22px);
+}
+
+.indent {
+  position: absolute;
+  top: 0;
+  left: 16px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.indentGuide {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 100%;
+  border-left: 1px solid
+    var(--vscode-treeInactiveIndentGuidesStroke, transparent);
+  opacity: 0;
+}
+
+.row:hover .indentGuide,
+.indentGuidesAlways .indentGuide {
+  opacity: 1;
+}
+
+.indentGuideHidden {
+  display: none;
+}
+
+.twistie,
+.contents {
+  height: 100%;
+}
+
+.twistie {
+  font-size: 10px;
+  text-align: right;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  padding-right: 6px;
+  flex-shrink: 0;
+  transform: translateX(3px);
+  background: transparent;
+  border: 0;
+  color: var(--vscode-icon-foreground);
+  line-height: 1;
+  box-sizing: content-box;
+}
+
+.twistieCollapsible {
+  cursor: pointer;
+}
+
+.twistie::before {
+  display: inline-block;
+  border-radius: 20px;
+  transform-origin: center center;
+}
+
+.twistie:global(.collapsed)::before {
+  transform: rotate(-90deg);
+}
+
+.contents {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.contentLayout {
+  display: flex;
+  align-items: center;
+  min-height: var(--tree-row-height, 22px);
+  min-width: 0;
+  gap: 4px;
+  padding-right: 8px;
+}
+
+.itemIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+}
+
+.contentBody {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  width: 100%;
+  gap: 8px;
+}
+
+.labelColumn {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+  gap: 6px;
+}
+
+.labelText,
+.description,
+.value,
+.badge {
+  font-size: var(--vscode-font-size);
+  line-height: 22px;
+}
+
+.labelText {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.description {
+  color: var(--vscode-descriptionForeground);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.value {
+  flex: 0 0 auto;
+  color: var(--vscode-descriptionForeground);
+}
+
+.badge {
+  flex: 0 0 auto;
+  min-width: 18px;
+  padding: 0 6px;
+  border-radius: 11px;
+  color: var(--vscode-badge-foreground);
+  background: var(--vscode-badge-background);
+  font-size: 11px;
+  line-height: 18px;
+}
+
+.actions {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+}
+
+.row:hover .actions,
+.rowFocused .actions {
+  opacity: 1;
+}
+
+.empty {
+  padding: 16px 12px;
+  color: var(--vscode-descriptionForeground);
+  white-space: normal;
+}
