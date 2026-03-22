@@ -9,7 +9,7 @@ import {
 } from 'node:fs/promises';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { defineConfig } from 'vite';
+import { defineConfig, type Plugin, type ResolvedConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const require = createRequire(import.meta.url);
@@ -42,10 +42,19 @@ function resolvePackageAsset(specifier: string): string {
   return require.resolve(specifier);
 }
 
-function copyThemeAssets() {
+function copyThemeAssets(): Plugin {
+  let shouldRun = false;
+
   return {
     name: 'copy-theme-assets',
+    configResolved(config: ResolvedConfig) {
+      shouldRun = Boolean(config.build.lib);
+    },
     async writeBundle() {
+      if (!shouldRun) {
+        return;
+      }
+
       const distDir = path.resolve(process.cwd(), 'dist');
       const themeDir = path.join(distDir, 'theme');
       const stylesPath = path.join(distDir, 'styles.css');
