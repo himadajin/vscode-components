@@ -18,12 +18,12 @@
     "typecheck": "npm run typecheck --workspaces --if-present",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "dev": "npm run dev --workspace=vscode-components",
+    "dev": "npm run dev --workspace=@himadajin/vscode-components",
     "dev:extension": "npm run dev --workspace=vscode-components-preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "build:storybook": "npm run build:storybook --workspace=vscode-components",
-    "publish:dry-run": "npm publish --dry-run --workspace=vscode-components",
+    "build:storybook": "npm run build:storybook --workspace=@himadajin/vscode-components",
+    "publish:dry-run": "npm publish --dry-run --workspace=@himadajin/vscode-components --access public",
     "check": "npm run lint && npm run typecheck && npm run format:check"
   }
 }
