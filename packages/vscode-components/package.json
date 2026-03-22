@@ -1,7 +1,16 @@
 {
-  "name": "vscode-components",
+  "name": "@himadajin/vscode-components",
   "version": "0.1.0",
+  "description": "React component library for building VS Code-like interfaces.",
+  "license": "MIT",
   "type": "module",
+  "keywords": [
+    "vscode",
+    "react",
+    "components",
+    "ui",
+    "webview"
+  ],
   "files": [
     "dist"
   ],
@@ -14,6 +23,17 @@
       "import": "./dist/index.js"
     },
     "./theme/defaults.css": "./dist/theme/defaults.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/himadajin/vscode-components.git"
+  },
+  "homepage": "https://github.com/himadajin/vscode-components#readme",
+  "bugs": {
+    "url": "https://github.com/himadajin/vscode-components/issues"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "peerDependencies": {
     "react": "^19.0.0",
