@@ -4,6 +4,7 @@ import {
   Button,
   ButtonGroup,
   Checkbox,
+  CheckboxGroup,
   Collapsible,
   Divider,
   FormContainer,
@@ -49,6 +50,14 @@ function ControlsPreview() {
   const [autoSave, setAutoSave] = useState(true);
   const [theme, setTheme] = useState('Default Dark+');
   const [target, setTarget] = useState('workspace');
+  const [readonlyInclude, setReadonlyInclude] = useState<
+    Record<string, boolean>
+  >({
+    typescript: true,
+    javascript: false,
+    json: true,
+    markdown: false,
+  });
   const [systemPrompt, setSystemPrompt] = useState(
     'You are a precise assistant.\nSummarize changes before proposing code.',
   );
@@ -88,6 +97,22 @@ function ControlsPreview() {
           enum={['Default Dark+', 'Light+', 'High Contrast Dark']}
           value={theme}
           onChange={setTheme}
+        />
+      </FormGroup>
+      <FormGroup
+        label="Files: Readonly Include"
+        description="Controls the languages that remain readonly in filtered views."
+        fill
+      >
+        <CheckboxGroup
+          items={[
+            { key: 'typescript', label: 'TypeScript' },
+            { key: 'javascript', label: 'JavaScript' },
+            { key: 'json', label: 'JSON' },
+            { key: 'markdown', label: 'Markdown' },
+          ]}
+          value={readonlyInclude}
+          onChange={setReadonlyInclude}
         />
       </FormGroup>
       <FormGroup
@@ -639,6 +664,7 @@ export const previews: PreviewDefinition[] = [
       'FormGroup',
       'TextInput',
       'Checkbox',
+      'CheckboxGroup',
       'Select',
       'RadioGroup',
       'Radio',

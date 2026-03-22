@@ -14,6 +14,7 @@ export * from './components/TextInput';
 export * from './components/Textarea';
 export * from './components/Tree';
 export * from './components/Checkbox';
+export * from './components/CheckboxGroup';
 export * from './components/Radio';
 export * from './components/RadioGroup';
 export * from './components/Select';

@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox';
+import { CheckboxGroup } from '../CheckboxGroup';
 import { Collapsible } from '../Collapsible';
 import { Divider } from '../Divider';
 import { FormContainer } from '../FormContainer';
@@ -78,6 +79,37 @@ export const WithSelect: Story = {
   },
 };
 
+export const WithCheckboxGroup: Story = {
+  args: {
+    label: 'Files: Readonly Include',
+    description:
+      'Controls the languages that remain readonly in filtered views.',
+    fill: true,
+  },
+  render: (args) => {
+    const [value, setValue] = useState<Record<string, boolean>>({
+      typescript: true,
+      javascript: false,
+      json: true,
+      markdown: false,
+    });
+
+    return (
+      <FormGroup {...args}>
+        <CheckboxGroup
+          items={[
+            { key: 'typescript', label: 'TypeScript' },
+            { key: 'javascript', label: 'JavaScript' },
+            { key: 'json', label: 'JSON' },
+            { key: 'markdown', label: 'Markdown' },
+          ]}
+          value={value}
+          onChange={setValue}
+        />
+      </FormGroup>
+    );
+  },
+};
 export const WithMultiSelect: Story = {
   args: {
     label: 'Files: Readonly Include',
