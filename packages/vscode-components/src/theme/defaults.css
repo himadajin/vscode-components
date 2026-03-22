@@ -55,6 +55,9 @@
   --vscode-list-activeSelectionForeground: #ffffff;
   --vscode-list-inactiveSelectionBackground: rgba(255, 255, 255, 0.04);
   --vscode-list-inactiveSelectionForeground: #ffffff;
+  --vscode-listFocusOutline: #007fd4;
+  --vscode-treeIndentGuidesStroke: rgba(255, 255, 255, 0.22);
+  --vscode-treeInactiveIndentGuidesStroke: rgba(255, 255, 255, 0.12);
   --vscode-panel-border: rgba(255, 255, 255, 0.08);
   --vscode-sash-hoverBorder: #007acc;
   --vscode-errorForeground: #f48771;
@@ -113,6 +116,9 @@
   --vscode-list-activeSelectionForeground: #000000;
   --vscode-list-inactiveSelectionBackground: rgba(0, 0, 0, 0.04);
   --vscode-list-inactiveSelectionForeground: #3b3b3b;
+  --vscode-listFocusOutline: #0090f1;
+  --vscode-treeIndentGuidesStroke: rgba(0, 0, 0, 0.28);
+  --vscode-treeInactiveIndentGuidesStroke: rgba(0, 0, 0, 0.16);
   --vscode-panel-border: rgba(0, 0, 0, 0.12);
   --vscode-sash-hoverBorder: #0090f1;
   --vscode-errorForeground: #c72e0f;
