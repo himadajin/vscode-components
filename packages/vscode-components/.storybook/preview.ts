@@ -8,13 +8,7 @@ import '../src/theme/storybook.css';
 const preview: Preview = {
   parameters: {
     layout: 'centered',
-    backgrounds: {
-      default: 'vscode-dark',
-      values: [
-        { name: 'vscode-dark', value: '#1f1f1f' },
-        { name: 'vscode-light', value: '#ffffff' },
-      ],
-    },
+    backgrounds: { disable: true },
   },
   globalTypes: {
     theme: {

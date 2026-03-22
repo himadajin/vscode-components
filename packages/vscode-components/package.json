@@ -22,6 +22,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./styles.css": "./dist/styles.css",
     "./theme/defaults.css": "./dist/theme/defaults.css"
   },
   "repository": {

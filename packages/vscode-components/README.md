@@ -10,9 +10,21 @@ This package is currently in alpha. The API, styling, and package contents may c
 npm install @himadajin/vscode-components
 ```
 
-## Usage
+## Usage in VS Code webviews
 
 ```tsx
+import '@himadajin/vscode-components/styles.css';
+import { Button } from '@himadajin/vscode-components';
+
+export function Example() {
+  return <Button>Run</Button>;
+}
+```
+
+## Usage on the web
+
+```tsx
+import '@himadajin/vscode-components/styles.css';
 import '@himadajin/vscode-components/theme/defaults.css';
 import { Button } from '@himadajin/vscode-components';
 
