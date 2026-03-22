@@ -1,0 +1,113 @@
+.root {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.editor {
+  width: 100%;
+  margin-bottom: 1px;
+  padding: 1px;
+}
+
+.emptyEditor {
+  border: 1px solid var(--vscode-panel-border);
+  border-radius: 4px;
+  background: var(--vscode-editor-background);
+}
+
+.row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 0;
+  color: var(--vscode-foreground);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.row:hover {
+  background-color: var(--vscode-list-hoverBackground);
+  color: var(--vscode-list-hoverForeground);
+}
+
+.checked {
+}
+
+.disabled {
+  cursor: default;
+  opacity: 0.4;
+}
+
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px;
+  margin-left: 4px;
+  margin-right: 9px;
+  border: 1px solid var(--vscode-settings-checkboxBorder);
+  border-radius: 3px;
+  background-color: var(--vscode-settings-checkboxBackground);
+  color: var(--vscode-settings-checkboxForeground);
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.checkbox > span {
+  font-size: 16px;
+  line-height: 16px;
+}
+
+.row:not(.checked) .checkbox > span::before {
+  opacity: 0;
+}
+
+.checkbox:focus {
+  outline: none;
+}
+
+.checkbox:focus-visible {
+  outline: 1px solid var(--vscode-focusBorder);
+  outline-offset: -1px;
+}
+
+.label {
+  display: inline-block;
+  min-width: 0;
+  width: 100%;
+  line-height: 24px;
+  padding-right: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  cursor: pointer;
+}
+
+.empty {
+  padding: 16px 10px;
+  color: var(--vscode-descriptionForeground);
+}
+
+.invalid .checkbox {
+  background-color: var(--vscode-inputValidation-errorBackground);
+  border-color: var(--vscode-inputValidation-errorBorder);
+}
+
+.validationMessage {
+  display: none;
+  margin-top: 1rem;
+  padding: 5px;
+  border: 1px solid var(--vscode-inputValidation-errorBorder);
+  background-color: var(--vscode-inputValidation-errorBackground);
+  color: var(--vscode-inputValidation-errorForeground);
+}
+
+.validationMessageVisible {
+  display: block;
+}
