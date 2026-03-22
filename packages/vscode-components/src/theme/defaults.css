@@ -123,15 +123,3 @@
   --vscode-sash-hoverBorder: #0090f1;
   --vscode-errorForeground: #c72e0f;
 }
-
-body {
-  margin: 0;
-  font-family: var(--vscode-font-family);
-  font-size: var(--vscode-font-size);
-  color: var(--vscode-foreground);
-  background: var(--vscode-editor-background);
-}
-
-* {
-  box-sizing: border-box;
-}

@@ -1,3 +1,36 @@
+:root {
+  background: var(--vscode-editor-background);
+  color: var(--vscode-foreground);
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: var(--vscode-editor-background);
+  color: var(--vscode-foreground);
+}
+
+body,
+#storybook-root,
+#root,
+.sb-show-main,
+.sb-main-centered,
+.sb-main-padded,
+.sbdocs,
+.docs-story {
+  background: var(--vscode-editor-background);
+  color: var(--vscode-foreground);
+}
+
+#storybook-root,
+#root,
+.sb-show-main,
+.sb-main-centered,
+.sb-main-padded {
+  min-height: 100vh;
+}
+
 .storybook-vscode-settings-shell {
   width: 100%;
   min-height: 100vh;
