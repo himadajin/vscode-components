@@ -1,4 +1,5 @@
 import '@vscode-elements/elements';
+import '@vscode/codicons/dist/codicon.css';
 
 export * from './components/Badge';
 export * from './components/Button';

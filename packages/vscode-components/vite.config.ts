@@ -1,18 +1,7 @@
-import {
-  copyFile,
-  mkdir,
-  readdir,
-  readFile,
-  rename,
-  rm,
-  writeFile,
-} from 'node:fs/promises';
+import { copyFile, mkdir, readdir, rename, rm } from 'node:fs/promises';
 import path from 'node:path';
-import { createRequire } from 'node:module';
 import { defineConfig, type Plugin, type ResolvedConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-
-const require = createRequire(import.meta.url);
 
 async function findGeneratedCssFiles(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
@@ -38,10 +27,6 @@ async function findGeneratedCssFiles(dir: string): Promise<string[]> {
   return files;
 }
 
-function resolvePackageAsset(specifier: string): string {
-  return require.resolve(specifier);
-}
-
 function copyThemeAssets(): Plugin {
   let shouldRun = false;
 
@@ -58,13 +43,6 @@ function copyThemeAssets(): Plugin {
       const distDir = path.resolve(process.cwd(), 'dist');
       const themeDir = path.join(distDir, 'theme');
       const stylesPath = path.join(distDir, 'styles.css');
-      const codiconDistDir = path.join(distDir, 'assets');
-      const codiconSourceCssPath = resolvePackageAsset(
-        '@vscode/codicons/dist/codicon.css',
-      );
-      const codiconSourceFontPath = resolvePackageAsset(
-        '@vscode/codicons/dist/codicon.ttf',
-      );
       const generatedCssFiles = await findGeneratedCssFiles(distDir);
 
       if (generatedCssFiles.length !== 1) {
@@ -74,7 +52,6 @@ function copyThemeAssets(): Plugin {
       }
 
       await mkdir(themeDir, { recursive: true });
-      await mkdir(codiconDistDir, { recursive: true });
 
       await copyFile(
         path.resolve(process.cwd(), 'src/theme/defaults.css'),
@@ -86,22 +63,6 @@ function copyThemeAssets(): Plugin {
       if (generatedCssPath !== stylesPath) {
         await rename(generatedCssPath, stylesPath);
       }
-
-      const [stylesCss, codiconCss] = await Promise.all([
-        readFile(stylesPath, 'utf8'),
-        readFile(codiconSourceCssPath, 'utf8'),
-        copyFile(
-          codiconSourceFontPath,
-          path.join(codiconDistDir, 'codicon.ttf'),
-        ),
-      ]);
-
-      const rewrittenCodiconCss = codiconCss.replaceAll(
-        './codicon.ttf?721d4c0a96379d0c13d3d5596893c348',
-        './assets/codicon.ttf',
-      );
-
-      await writeFile(stylesPath, `${rewrittenCodiconCss}\n${stylesCss}`);
 
       const generatedCssDir = path.dirname(generatedCssPath);
       if (generatedCssDir !== distDir) {
@@ -124,7 +85,12 @@ export default defineConfig({
       fileName: 'index',
     },
     rollupOptions: {
-      external: ['react', 'react-dom', 'react/jsx-runtime'],
+      external: [
+        'react',
+        'react-dom',
+        'react/jsx-runtime',
+        '@vscode/codicons/dist/codicon.css',
+      ],
     },
   },
 });
